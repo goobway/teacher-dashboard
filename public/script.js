@@ -47,8 +47,15 @@ function getStudentDetailsById(id) {
 // Function for displaying student profiles
 function createStudentProfiles() {
   const studentProfilesContainer = document.querySelector('.student-profiles');
-  console.log(window.studentData); // Debugging line
-  const uniqueStudentIds = new Set(window.studentData.map(student => student.studentId));
+
+  // Create a set of unique student IDs
+  const uniqueStudentIds = new Set(studentData.map(student => student.studentId));
+
+// // Function for displaying student profiles
+// function createStudentProfiles() {
+//   const studentProfilesContainer = document.querySelector('.student-profiles');
+//   console.log(window.studentData); // Debugging line
+//   const uniqueStudentIds = new Set(window.studentData.map(student => student.studentId));
 
   const studentNameMap = {
     0: 'Arlene',
