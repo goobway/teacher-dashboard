@@ -26,6 +26,19 @@ function createStudentProfiles(studentData) {
   // Create a set of unique student IDs
   const uniqueStudentIds = new Set(studentData.map(student => student.studentId));
 
+  const studentNameMap = {
+    0: 'Arlene',
+    1: 'Bret',
+    2: 'Cindy',
+    3: 'Don',
+    4: 'Emily',
+    5: 'Franklin',
+    6: 'Gert',
+    7: 'Harold',
+    8: 'Idalia',
+    9: 'Jose'
+  };  
+
   // Process student data
   const studentProfiles = studentData.reduce((acc, item) => {
     if (!acc[item.studentId]) {
