@@ -49,20 +49,31 @@ nav li a:hover {
 
 /* Student Profiles */
 /* Style the student profiles */
+.student-profiles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 2em 0;
+}
+
 .student-profile {
-    background-color: white;
-    border: 1px solid #ddd;
+    flex-basis: calc(20% - 20px);
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 1em;
-    margin-bottom: 1em;
-    display: inline-block;
-    width: 300px;
+    padding: 15px;
+    margin: 10px;
+    text-align: center;
+}
+
+.student-profile:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .student-profile h3 {
     font-size: 1.5em;
     margin-top: 0;
+    margin-bottom: 0.5em;
 }
 
 .student-profile p {
@@ -72,32 +83,28 @@ nav li a:hover {
 .student-profile img {
     display: block;
     margin: 0 auto;
-}
-
-.student-profiles {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.student-profile {
-    flex-basis: 300px;
-    background-color: #f8f8f8;
+    max-width: 100%;
     border: 1px solid #ccc;
     border-radius: 5px;
-    padding: 15px;
-    margin-bottom: 20px;
+    margin-top: 1em;
+}
+
+@media (max-width: 768px) {
+    .student-profile {
+        flex-basis: calc(33.33% - 20px);
+    }
+}
+
+@media (max-width: 480px) {
+    .student-profile {
+        flex-basis: calc(50% - 20px);
+    }
+}
+
+/* Title */
+.title {
+    font-size: 2em;
     text-align: center;
-    margin-right: 20px;
-}
-
-.student-profile:nth-child(5n) {
-    margin-right: 0;
-}
-
-.submitted-drawing {
-    max-width: 150px;
-    max-height: 150px;
-    border: 1px solid #ccc;
-    margin: 5px;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
