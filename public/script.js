@@ -124,7 +124,7 @@ function createStudentProfiles() {
     const profileDiv = document.createElement('div');
     profileDiv.className = 'student-profile';
     profileDiv.addEventListener('click', () => {
-      displayDrawingsModal(student.id, studentData);
+      displayDrawingsModal(student);
     });
 
     const studentName = document.createElement('h3');
@@ -161,64 +161,13 @@ function createStudentProfiles() {
 }
 
 // Function to display modal with student drawings
-// function displayDrawingsModal(studentId, studentData) {
-//   const studentDrawings = studentData.filter(item => item.studentId === studentId);
-//   const modalOverlay = document.createElement('div');
-//   modalOverlay.classList.add('modal-overlay');
-
-//   const modal = document.createElement('div');
-//   modal.classList.add('modal');
-
-//   const closeButton = document.createElement('button');
-//   closeButton.classList.add('modal-close-button');
-//   closeButton.textContent = 'X';
-//   closeButton.addEventListener('click', () => {
-//     modalOverlay.remove();
-//   });
-
-//   const drawingGrid = document.createElement('div');
-//   drawingGrid.classList.add('drawing-grid');
-
-//   studentIds.forEach(studentId => {
-//     const studentDrawings = studentData.filter(item => item.studentId === studentId);
-
-//     const drawingDiv = document.createElement('div');
-//     drawingDiv.classList.add('drawing');
-
-//     studentDrawings.forEach(item => {
-//       const imageURL = matrixToDataURL(item.matrix);
-
-//       const drawingImg = document.createElement('img');
-//       drawingImg.src = imageURL;
-
-//       drawingImg.addEventListener('mouseenter', () => {
-//         const promptOverlay = document.createElement('div');
-//         promptOverlay.classList.add('prompt-overlay');
-//         promptOverlay.textContent = item.prompt;
-//         drawingDiv.appendChild(promptOverlay);
-//       });
-//       drawingImg.addEventListener('mouseleave', () => {
-//         const promptOverlay = drawingDiv.querySelector('.prompt-overlay');
-//         if (promptOverlay) {
-//           promptOverlay.remove();
-//         }
-//       });
-
-//       drawingDiv.appendChild(drawingImg);
-//     });
-
-//     drawingGrid.appendChild(drawingDiv);
-//   });
-
-//   modal.appendChild(closeButton);
-//   modal.appendChild(drawingGrid);
-//   modalOverlay.appendChild(modal);
-
-//   document.body.appendChild(modalOverlay);
-// }
-function displayDrawingsModal() {
-  const studentId = new Set(studentData.map(student => student.studentId));
-  const studentDrawings = studentData.filter(item => item.studentId === studentId);
+function displayDrawingsModal(studentData) {
+  const studentIds = new Set(studentData.map(student => student.studentId));
+  const studentDrawings = [];
+  studentIds.forEach(id => {
+    const drawings = studentData.filter(item => item.studentId === id);
+    studentDrawings.push(...drawings);
+  });
   const modalOverlay = document.createElement('div');
   modalOverlay.classList.add('modal-overlay');
 
@@ -286,22 +235,3 @@ fetch('/values')
   .catch(error => {
     console.error('Error fetching student data:', error);
   });
-
-// fetch('/values')
-//   .then(response => response.text())
-//   .then(text => {
-//     console.log('Response text:', text);
-//     return JSON.parse(text);
-//   })
-//   .then(data => {
-//     // Assign the fetched data to the global variable
-//     window.studentData = data.data;
-
-//     // Call createTable to create the student data table
-//     if (document.getElementById('student-data')) {
-//       createTable(window.studentData);
-//     }
-//   })
-//   .catch(error => {
-//     console.error('Error fetching student data:', error);
-//   });
