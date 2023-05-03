@@ -122,6 +122,7 @@ nav li a:hover {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
+
 /* Modal Content */
 .modal {
     display: none;
@@ -138,6 +139,7 @@ nav li a:hover {
     border-radius: 5px;
     padding: 20px;
 }
+
 
 /* Close Button */
 .close {
