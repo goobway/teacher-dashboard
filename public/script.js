@@ -273,7 +273,7 @@ fetch('/values')
 
     // Create student profiles
     if (document.querySelector('.student-profiles')) {
-      createStudentProfiles(studentData);
+      createStudentProfiles();
     }
   })
   .catch(error => {
