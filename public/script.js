@@ -29,11 +29,12 @@ fetch('/values')
     return JSON.parse(text);
   })
   .then(data => {
-    studentData = data.data; // assign the fetched data to the global variable
+    // Assign the fetched data to the global variable
+    window.studentData = data.data;
 
     // Call createTable to create the student data table
     if (document.getElementById('student-data')) {
-      createTable(studentData);
+      createTable(window.studentData);
     }
   })
   .catch(error => {
