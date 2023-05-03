@@ -47,11 +47,25 @@ function createScatterPlot(data) {
     });
 }
 
+const studentNameMap = {
+    0: 'Arlene',
+    1: 'Bret',
+    2: 'Cindy',
+    3: 'Don',
+    4: 'Emily',
+    5: 'Franklin',
+    6: 'Gert',
+    7: 'Harold',
+    8: 'Idalia',
+    9: 'Jose'
+};
+
 function formatScatterData(data) {
     const scatterData = [];
 
     data.forEach(item => {
-        const studentIndex = scatterData.findIndex(dataset => dataset.label === item.studentId);
+        const studentName = studentNameMap[item.studentId];
+        const studentIndex = scatterData.findIndex(dataset => dataset.label === studentName);
 
         if (studentIndex >= 0) {
             scatterData[studentIndex].data.push({
@@ -60,7 +74,7 @@ function formatScatterData(data) {
             });
         } else {
             scatterData.push({
-                label: item.studentId,
+                label: studentName,
                 data: [
                     {
                         x: item.prompt,
