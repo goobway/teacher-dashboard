@@ -2,45 +2,6 @@
 // Call loadNav to load the navigation menu
 loadNav();
 
-let studentData; // declare the global studentData variable
-
-fetch('/values')
-  .then(response => response.text())
-  .then(text => {
-    console.log('Response text:', text);
-    return JSON.parse(text);
-  })
-  .then(data => {
-    studentData = data.data; // assign the fetched data to the global variable
-
-    // Create student profiles
-    if (document.querySelector('.student-profiles')) {
-      createStudentProfiles(studentData);
-    }
-  })
-  .catch(error => {
-    console.error('Error fetching student data:', error);
-  });
-
-fetch('/values')
-  .then(response => response.text())
-  .then(text => {
-    console.log('Response text:', text);
-    return JSON.parse(text);
-  })
-  .then(data => {
-    // Assign the fetched data to the global variable
-    window.studentData = data.data;
-
-    // Call createTable to create the student data table
-    if (document.getElementById('student-data')) {
-      createTable(window.studentData);
-    }
-  })
-  .catch(error => {
-    console.error('Error fetching student data:', error);
-  });
-
 function matrixToDataURL(matrix) {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
@@ -298,3 +259,42 @@ function displayDrawingsModal() {
 
   document.body.appendChild(modalOverlay);
 }
+
+let studentData; // declare the global studentData variable
+
+fetch('/values')
+  .then(response => response.text())
+  .then(text => {
+    console.log('Response text:', text);
+    return JSON.parse(text);
+  })
+  .then(data => {
+    studentData = data.data; // assign the fetched data to the global variable
+
+    // Create student profiles
+    if (document.querySelector('.student-profiles')) {
+      createStudentProfiles(studentData);
+    }
+  })
+  .catch(error => {
+    console.error('Error fetching student data:', error);
+  });
+
+fetch('/values')
+  .then(response => response.text())
+  .then(text => {
+    console.log('Response text:', text);
+    return JSON.parse(text);
+  })
+  .then(data => {
+    // Assign the fetched data to the global variable
+    window.studentData = data.data;
+
+    // Call createTable to create the student data table
+    if (document.getElementById('student-data')) {
+      createTable(window.studentData);
+    }
+  })
+  .catch(error => {
+    console.error('Error fetching student data:', error);
+  });
