@@ -2,100 +2,102 @@
 main {
     max-width: 960px;
     margin: 0 auto;
-  }
-  
-  /* Style the header section */
-  header {
-    background-color: #3f51b5;
+}
+
+/* Style the header section */
+header {
+    background-color: #456990;
     color: white;
     text-align: center;
     padding: 1em;
-  }
-  
-  body {
+}
+
+body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-  }
-  
-  /* Navigation Menu */
-  
-  nav {
+}
+
+/* Navigation Menu */
+
+nav {
     background-color: #333;
     overflow: hidden;
-  }
-  
-  nav ul {
+}
+
+nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-  }
-  
-  nav li {
+}
+
+nav li {
     float: left;
-  }
-  
-  nav li a {
+}
+
+nav li a {
     display: block;
     color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-  }
-  
-  nav li a:hover {
+}
+
+nav li a:hover {
     background-color: #111;
-  }
-  
-  /* Student Profiles */
-  /* Style the student profiles */
-  .student-profiles {
+}
+
+/* Student Profiles */
+/* Style the student profiles */
+.student-profile {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1em;
+    margin-bottom: 1em;
+    display: inline-block;
+    width: 300px;
+}
+
+.student-profile h3 {
+    font-size: 1.5em;
+    margin-top: 0;
+}
+
+.student-profile p {
+    margin: 0;
+}
+
+.student-profile img {
+    display: block;
+    margin: 0 auto;
+}
+
+.student-profiles {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    margin: 2em 0;
-  }
-  
-  .student-profile {
-    flex-basis: calc(33.33% - 1em);
+    justify-content: center;
+}
+
+.student-profile {
+    flex-basis: 300px;
     background-color: #f8f8f8;
     border: 1px solid #ccc;
     border-radius: 5px;
-    padding: 1em;
-    margin-bottom: 1em;
+    padding: 15px;
+    margin-bottom: 20px;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.2s ease-in-out;
-  }
-  
-  .student-profile:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .student-profile h3 {
-    font-size: 1.5em;
-    margin-top: 0;
-    margin-bottom: 0.5em;
-  }
-  
-  .student-profile p {
-    margin: 0;
-  }
-  
-  .student-profile img {
-    display: block;
-    margin: 0 auto;
-    max-width: 100%;
+    margin-right: 20px;
+}
+
+.student-profile:nth-child(5n) {
+    margin-right: 0;
+}
+
+.submitted-drawing {
+    max-width: 150px;
+    max-height: 150px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-top: 1em;
-  }
-  
-  /* Title */
-  .title {
-    font-size: 2em;
-    text-align: center;
-    margin-top: 1em;
-    margin-bottom: 1em;
-  }
-  
+    margin: 5px;
+}
