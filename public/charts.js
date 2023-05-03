@@ -58,37 +58,49 @@ fetch('/values')
       'Y_upper': 'Y',
       'Z_upper': 'Z'
     };
-
-    const chartData = data.data.map(student => ({
-      x: promptMap[student.prompt],
-      y: student.confidence,
-      borderColor: `hsl(${student.id * 36}, 70%, 50%)`,
-      pointBackgroundColor: `hsl(${student.id * 36}, 70%, 50%)`,
-      pointRadius: 5,
-      pointHoverRadius: 8,
-    }));
+    
+    const chartData = data.data.reduce((acc, student) => {
+      const index = acc.findIndex(item => item.label === student.id);
+      if (index === -1) {
+        acc.push({
+          label: student.id,
+          data: [{
+            x: student.confidence,
+            y: promptMap[student.prompt],
+          }],
+          borderColor: `hsl(${student.id * 36}, 70%, 50%)`,
+          pointBackgroundColor: `hsl(${student.id * 36}, 70%, 50%)`,
+          pointRadius: 5,
+          pointHoverRadius: 8,
+        });
+      } else {
+        acc[index].data.push({
+          x: student.confidence,
+          y: promptMap[student.prompt],
+        });
+      }
+      return acc;
+    }, []);
 
     new Chart('scatter-chart', {
       type: 'scatter',
       data: {
-        datasets: [{
-          data: chartData,
-        }],
+        datasets: chartData,
       },
       options: {
         scales: {
           x: {
             title: {
               display: true,
-              text: 'Prompt',
+              text: 'Confidence Level',
             },
-            type: 'category',
           },
           y: {
             title: {
               display: true,
-              text: 'Confidence Level',
+              text: 'Prompt',
             },
+            type: 'category',
           },
         },
       },
