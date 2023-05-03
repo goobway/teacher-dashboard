@@ -2,7 +2,43 @@
 // Call loadNav to load the navigation menu
 loadNav();
 
-let studentData = []; // declare the global studentData variable
+let studentData; // declare the global studentData variable
+
+fetch('/values')
+  .then(response => response.text())
+  .then(text => {
+    console.log('Response text:', text);
+    return JSON.parse(text);
+  })
+  .then(data => {
+    const studentData = data.data;
+
+    // Create student profiles
+    if (document.querySelector('.student-profiles')) {
+      createStudentProfiles(studentData);
+    }
+  })
+  .catch(error => {
+    console.error('Error fetching student data:', error);
+  });
+
+fetch('/values')
+  .then(response => response.text())
+  .then(text => {
+    console.log('Response text:', text);
+    return JSON.parse(text);
+  })
+  .then(data => {
+    const studentData = data.data;
+
+    // Call createTable to create the student data table
+    if (document.getElementById('student-data')) {
+      createTable(studentData);
+    }
+  })
+  .catch(error => {
+    console.error('Error fetching student data:', error);
+  });
 
 function matrixToDataURL(matrix) {
   const canvas = document.createElement('canvas');
@@ -260,41 +296,3 @@ function displayDrawingsModal() {
 
   document.body.appendChild(modalOverlay);
 }
-
-
-
-fetch('/values')
-  .then(response => response.text())
-  .then(text => {
-    console.log('Response text:', text);
-    return JSON.parse(text);
-  })
-  .then(data => {
-    const studentData = data.data;
-
-    // Create student profiles
-    if (document.querySelector('.student-profiles')) {
-      createStudentProfiles(studentData);
-    }
-  })
-  .catch(error => {
-    console.error('Error fetching student data:', error);
-  });
-
-fetch('/values')
-  .then(response => response.text())
-  .then(text => {
-    console.log('Response text:', text);
-    return JSON.parse(text);
-  })
-  .then(data => {
-    const studentData = data.data;
-
-    // Call createTable to create the student data table
-    if (document.getElementById('student-data')) {
-      createTable(studentData);
-    }
-  })
-  .catch(error => {
-    console.error('Error fetching student data:', error);
-  });
