@@ -153,8 +153,8 @@ function createStudentProfiles() {
 }
 
 // Function to display modal with student drawings
-function displayDrawingsModal(studentData, student) {
-  const studentDrawings = studentData.filter(item => item.studentId === student.id);
+function displayDrawingsModal(studentProfiles, student) {
+  const studentDrawings = studentProfiles[student.id];
   const modalOverlay = document.createElement('div');
   modalOverlay.classList.add('modal-overlay');
 
