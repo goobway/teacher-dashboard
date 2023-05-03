@@ -1,4 +1,13 @@
-/* Navigation Menu Styles */
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navigation Menu */
+
 nav {
     background-color: #333;
     overflow: hidden;
@@ -14,7 +23,7 @@ nav li {
     float: left;
 }
 
-nav a {
+nav li a {
     display: block;
     color: white;
     text-align: center;
@@ -22,17 +31,31 @@ nav a {
     text-decoration: none;
 }
 
-nav a:hover {
+nav li a:hover {
     background-color: #111;
 }
 
-/* Other styles */
-body {
-    font-family: Arial, sans-serif;
+/* Student Profiles */
+
+.student-profiles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 
-#bar-chart {
-    width: 600px;
-    height: 400px;
-    margin: 20px auto;
+.student-profile {
+    flex-basis: 300px;
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.submitted-drawing {
+    max-width: 150px;
+    max-height: 150px;
+    border: 1px solid #ccc;
+    margin: 5px;
 }
