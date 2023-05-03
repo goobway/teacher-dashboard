@@ -113,16 +113,29 @@ nav li a:hover {
 /* The Modal (background) */
 .modal {
     display: none;
+    /* Hidden by default */
     position: fixed;
+    /* Stay in place */
     z-index: 1;
-    padding-top: 100px;
-    left: 0;
-    top: 0;
-    width: 600px;
-    height: 600px;
+    /* Sit on top */
+    left: 50%;
+    /* Center horizontally */
+    top: 350px;
+    /* Center vertically */
+    width: 80%;
+    /* Set the width of the modal */
+    max-width: 960px;
+    /* Set a maximum width */
+    margin: 0 auto;
+    /* Center horizontally */
     overflow: auto;
+    /* Enable scroll if needed */
     background-color: rgb(0, 0, 0);
+    /* Fallback color */
     background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+    border-radius: 5px;
+    /* Add a rounded border */
 }
 
 /* Modal Content */
@@ -131,7 +144,8 @@ nav li a:hover {
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 100%;
+    /* Set the width of the content area */
     max-height: 80%;
     overflow-y: scroll;
 }
@@ -142,6 +156,10 @@ nav li a:hover {
     float: right;
     font-size: 28px;
     font-weight: bold;
+    margin-top: -10px;
+    /* Move the button up slightly */
+    margin-right: -10px;
+    /* Move the button to the right slightly */
 }
 
 .close:hover,
