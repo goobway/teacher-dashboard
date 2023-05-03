@@ -85,6 +85,7 @@ function getStudentDetailsById(id) {
 // Function for displaying student profiles
 function createStudentProfiles() {
   const studentProfilesContainer = document.querySelector('.student-profiles');
+  console.log(window.studentData); // Debugging line
   const uniqueStudentIds = new Set(window.studentData.map(student => student.studentId));
 
   const studentNameMap = {
