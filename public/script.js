@@ -47,11 +47,9 @@ function getStudentDetailsById(id) {
 }
 
 // Function for displaying student profiles
-function createStudentProfiles(studentData) {
+function createStudentProfiles() {
   const studentProfilesContainer = document.querySelector('.student-profiles');
-
-  // Create a set of unique student IDs
-  const uniqueStudentIds = new Set(studentData.map(student => student.studentId));
+  const uniqueStudentIds = new Set(window.studentData.map(student => student.studentId));
 
   const studentNameMap = {
     0: 'Arlene',
@@ -212,8 +210,9 @@ function createStudentProfiles(studentData) {
 
 //   document.body.appendChild(modalOverlay);
 // }
-function displayDrawingsModal(studentData, studentId) {
-  const studentDrawings = studentData.filter(item => item.studentId === studentId);
+function displayDrawingsModal() {
+  const studentId = new Set(window.studentData.map(student => student.studentId));
+  const studentDrawings = window.studentData.filter(item => item.studentId === studentId);
   const modalOverlay = document.createElement('div');
   modalOverlay.classList.add('modal-overlay');
 
