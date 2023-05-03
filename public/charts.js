@@ -61,7 +61,7 @@ fetch('/values')
     
     const chartData = data.data.map(student => ({
       x: promptMap[student.prompt],
-      y: student.confidence,
+      y: student.confidence * 100,
       borderColor: `hsl(${student.id * 36}, 70%, 50%)`,
       pointBackgroundColor: `hsl(${student.id * 36}, 70%, 50%)`,
       pointRadius: 5,
