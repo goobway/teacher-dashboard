@@ -89,26 +89,35 @@ app.get('/values', async (req, res) => {
   }
 });
 
-// Endpoint to clear all data
-app.delete('/delete', async (req, res) => {
-  const { studentId } = req.body;
+// Endpoint to delete data for a specific student ID
+app.delete('/delete/:studentId', async (req, res) => {
+  const studentId = parseInt(req.params.studentId);
+
+  if (isNaN(studentId)) {
+    return res.status(400).json({ error: 'Invalid student ID.' });
+  }
 
   try {
+    // Connect to the MongoDB server
     await client.connect();
+    // Get the 'dashboardData' database
     const db = client.db('dashboardData');
+    // Get the 'frame_of_knowledge' collection
     const collection = db.collection('frame_of_knowledge');
 
+    // Delete the document with the specified student ID
     const result = await collection.deleteOne({ studentId: studentId });
 
-    if (result.deletedCount > 0) {
-      res.status(200).json({ message: 'Student data deleted successfully.' });
+    if (result.deletedCount === 0) {
+      res.status(404).json({ message: 'No data found with the specified student ID.' });
     } else {
-      res.status(404).json({ message: 'No student found with the provided studentId.' });
+      res.status(200).json({ message: 'Data deleted successfully.' });
     }
   } catch (err) {
     console.error(err);
     res.status(500).send('Error deleting data');
   } finally {
+    // Close the MongoDB connection
     await client.close();
   }
 });
