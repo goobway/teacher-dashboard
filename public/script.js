@@ -7,6 +7,16 @@ function createStudentProfiles(studentData) {
   const studentProfilesContainer = document.querySelector('.student-profiles');
   const studentProfiles = [
     { id: 0, name: 'Arlene', grade: 'Kindergarten', teacher: 'XX', overallScore: 'XX', strengths: 'XX', areasOfImprovement: 'XX' },
+    { id: 1, name: 'Bret', grade: 'Kindergarten', teacher: 'XX', overallScore: 'XX', strengths: 'XX', areasOfImprovement: 'XX' },
+    { id: 2, name: 'Cindy', grade: 'Kindergarten', teacher: 'XX', overallScore: 'XX', strengths: 'XX', areasOfImprovement: 'XX' },
+    { id: 3, name: 'Don', grade: 'Kindergarten', teacher: 'XX', overallScore: 'XX', strengths: 'XX', areasOfImprovement: 'XX' },
+    { id: 4, name: 'Emily', grade: 'Kindergarten', teacher: 'XX', overallScore: 'XX', strengths: 'XX', areasOfImprovement: 'XX' },
+    { id: 5, name: 'Franklin', grade: 'Kindergarten', teacher: 'XX', overallScore: 'XX', strengths: 'XX', areasOfImprovement: 'XX' },
+    { id: 6, name: 'Gert', grade: 'Kindergarten', teacher: 'XX', overallScore: 'XX', strengths: 'XX', areasOfImprovement: 'XX' },
+    { id: 7, name: 'Harold', grade: 'Kindergarten', teacher: 'XX', overallScore: 'XX', strengths: 'XX', areasOfImprovement: 'XX' },
+    { id: 8, name: 'Idalia', grade: 'Kindergarten', teacher: 'XX', overallScore: 'XX', strengths: 'XX', areasOfImprovement: 'XX' },
+    { id: 9, name: 'Jose', grade: 'Kindergarten', teacher: 'XX', overallScore: 'XX', strengths: 'XX', areasOfImprovement: 'XX' },
+
     // Add other students with their details here
   ];
 
@@ -48,7 +58,10 @@ function createStudentProfiles(studentData) {
 }
 
 fetch('/values')
-  .then(response => response.json())
+  .then(response => {
+    console.log('Response text:', response.text());
+    return response.json();
+  })
   .then(data => {
     const studentData = data.data;
 
@@ -62,7 +75,10 @@ fetch('/values')
   });
 
 fetch('/values')
-  .then(response => response.json())
+  .then(response => {
+    console.log('Response text:', response.text());
+    return response.json();
+  })
   .then(data => {
     const studentData = data.data;
 
