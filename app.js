@@ -90,24 +90,25 @@ app.get('/values', async (req, res) => {
 });
 
 // Endpoint to clear all data
-app.delete('/clear', async (req, res) => {
+app.delete('/delete', async (req, res) => {
+  const { studentId } = req.body;
+
   try {
-    // Connect to the MongoDB server
     await client.connect();
-    // Get the 'dashboardData' database
     const db = client.db('dashboardData');
-    // Get the 'frame_of_knowledge' collection
     const collection = db.collection('frame_of_knowledge');
 
-    // Delete all documents in the collection
-    await collection.deleteMany({});
+    const result = await collection.deleteOne({ studentId: studentId });
 
-    res.status(200).json({ message: 'Data cleared successfully.' });
+    if (result.deletedCount > 0) {
+      res.status(200).json({ message: 'Student data deleted successfully.' });
+    } else {
+      res.status(404).json({ message: 'No student found with the provided studentId.' });
+    }
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error clearing data');
+    res.status(500).send('Error deleting data');
   } finally {
-    // Close the MongoDB connection
     await client.close();
   }
 });
