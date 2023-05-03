@@ -2,6 +2,8 @@
 // Call loadNav to load the navigation menu
 loadNav();
 
+let studentData;
+
 function getStudentDetailsById(id) {
   const studentDetails = [
     { id: 0, name: 'Arlene', grade: 'Kindergarten', teacher: 'Duarte' },
