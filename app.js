@@ -15,7 +15,7 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 
 // Define the MongoDB connection URI
-const uri = 'mongodb://localhost:27017';
+const uri = 'mongodb://127.0.0.1:27017';
 // Create a new MongoClient instance
 const client = new MongoClient(uri);
 
