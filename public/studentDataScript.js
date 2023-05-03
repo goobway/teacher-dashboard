@@ -48,8 +48,8 @@ function createTable(studentData) {
     row.innerHTML = `
         <td>${item.studentId}</td>
         <td>${item.prompt}</td>
-        <td>${(item.classification * 100)}</td>
-        <td>${item.confidence.toFixed(2)}%</td>
+        <td>${item.classification}</td>
+        <td>${(item.confidence * 100).toFixed(2)}%</td>
         <td><img src="${imageURL}" width="32" height="32" alt="Image"></td>
       `;
   });
