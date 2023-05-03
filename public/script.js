@@ -153,19 +153,22 @@ function createStudentProfiles() {
 }
 
 // Function to display modal with student drawings
-// Function to display modal with student drawings
 function displayDrawingsModal(studentData, student) {
+  console.log("Entered into displayDrawingsModal function");
   const studentDrawings = studentData.filter(item => item.studentId === student.id);
   const modalOverlay = document.createElement('div');
   modalOverlay.classList.add('modal-overlay');
+  console.log("modal-overlay added");
 
   const modal = document.createElement('div');
   modal.classList.add('modal');
+  console.log("modal added");
 
   const closeButton = document.createElement('button');
   closeButton.classList.add('modal-close-button');
   closeButton.textContent = 'X';
   closeButton.addEventListener('click', () => {
+    console.log("Exit clicked");
     modalOverlay.remove();
   });
 
