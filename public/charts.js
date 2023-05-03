@@ -12,7 +12,7 @@ const colors = [
     'rgba(75, 192, 192, 0.5)',
 ];
 
-function createScatterPlot() {
+function createScatterPlot(data) {
     const ctx = document.getElementById('scatter-plot').getContext('2d');
     const scatterData = formatScatterData(data);
 
@@ -75,4 +75,16 @@ function formatScatterData(data) {
     return scatterData;
 }
 
-createScatterPlot();
+function fetchDataAndCreateScatterPlot() {
+    fetch('/values')
+        .then(response => response.json())
+        .then(data => {
+            const studentData = data.data;
+            createScatterPlot(studentData);
+        })
+        .catch(error => {
+            console.error('Error fetching student data:', error);
+        });
+}
+
+fetchDataAndCreateScatterPlot();
