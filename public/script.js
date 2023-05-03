@@ -47,15 +47,7 @@ function getStudentDetailsById(id) {
 // Function for displaying student profiles
 function createStudentProfiles() {
   const studentProfilesContainer = document.querySelector('.student-profiles');
-
-  // Create a set of unique student IDs
   const uniqueStudentIds = new Set(studentData.map(student => student.studentId));
-
-// // Function for displaying student profiles
-// function createStudentProfiles() {
-//   const studentProfilesContainer = document.querySelector('.student-profiles');
-//   console.log(window.studentData); // Debugging line
-//   const uniqueStudentIds = new Set(window.studentData.map(student => student.studentId));
 
   const studentNameMap = {
     0: 'Arlene',
@@ -119,12 +111,12 @@ function createStudentProfiles() {
     student.areasOfImprovement = promptPerformance.slice(-3).map((item) => item.prompt);
   });
 
-  // Create student profile elements
+  // Create student profile elements  
   Object.values(studentProfiles).forEach((student) => {
     const profileDiv = document.createElement('div');
     profileDiv.className = 'student-profile';
     profileDiv.addEventListener('click', () => {
-      displayDrawingsModal(student);
+        displayDrawingsModal(student);
     });
 
     const studentName = document.createElement('h3');
@@ -161,13 +153,8 @@ function createStudentProfiles() {
 }
 
 // Function to display modal with student drawings
-function displayDrawingsModal(studentData) {
-  const studentIds = new Set(studentData.map(student => student.studentId));
-  const studentDrawings = [];
-  studentIds.forEach(id => {
-    const drawings = studentData.filter(item => item.studentId === id);
-    studentDrawings.push(...drawings);
-  });
+function displayDrawingsModal(studentData, student) {
+  const studentDrawings = studentData.filter(item => item.studentId === student.id);
   const modalOverlay = document.createElement('div');
   modalOverlay.classList.add('modal-overlay');
 
