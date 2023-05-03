@@ -2,6 +2,8 @@
 // Call loadNav to load the navigation menu
 loadNav();
 
+let studentData = []; // declare the global studentData variable
+
 function matrixToDataURL(matrix) {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
