@@ -43,7 +43,6 @@ function createTable(studentData) {
 
   const tbody = document.createElement('tbody');
   studentData.forEach(item => {
-    confidence = confidence * 100;
     const row = tbody.insertRow();
     const imageURL = matrixToDataURL(item.matrix);
     row.innerHTML = `
