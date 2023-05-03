@@ -116,7 +116,7 @@ function createStudentProfiles() {
     const profileDiv = document.createElement('div');
     profileDiv.className = 'student-profile';
     profileDiv.addEventListener('click', () => {
-        displayDrawingsModal(student);
+      displayDrawingsModal(studentData, student);
     });
 
     const studentName = document.createElement('h3');
