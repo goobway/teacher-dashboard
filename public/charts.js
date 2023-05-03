@@ -59,49 +59,46 @@ fetch('/values')
             'Z_upper': 'Z'
         };
 
-        const chartData = data.data.reduce((acc, student) => {
-            const index = acc.findIndex(item => item.label === student.id);
-            console.log(student.id);
-            if (index === -1) {
-                acc.push({
-                    label: student.id,
-                    data: [{
-                        x: student.confidence,
-                        y: promptMap[student.prompt],
-                    }],
-                    borderColor: `hsl(${student.id * 36}, 70%, 50%)`,
-                    pointBackgroundColor: `hsl(${student.id * 36}, 70%, 50%)`,
+        const chartData = {};
+        data.data.forEach(student => {
+            const studentDetails = getStudentDetailsById(student.id);
+            if (!chartData[studentDetails.name]) {
+                chartData[studentDetails.name] = {
+                    label: studentDetails.name,
+                    data: [],
+                    borderColor: `hsl(${studentDetails.id * 36}, 70%, 50%)`,
+                    pointBackgroundColor: `hsl(${studentDetails.id * 36}, 70%, 50%)`,
                     pointRadius: 5,
                     pointHoverRadius: 8,
-                });
-            } else {
-                acc[index].data.push({
-                    x: student.confidence,
-                    y: promptMap[student.prompt],
-                });
+                };
             }
-            return acc;
-        }, []);
 
+            chartData[studentDetails.name].data.push({
+                x: promptMap[student.prompt],
+                y: student.confidence,
+            });
+        });
+
+        const datasets = Object.values(chartData);
         new Chart('scatter-chart', {
             type: 'scatter',
             data: {
-                datasets: chartData,
+                datasets: datasets,
             },
             options: {
                 scales: {
                     x: {
                         title: {
                             display: true,
-                            text: 'Confidence Level',
+                            text: 'Prompt',
                         },
+                        type: 'category',
                     },
                     y: {
                         title: {
                             display: true,
-                            text: 'Prompt',
+                            text: 'Confidence Level',
                         },
-                        type: 'category',
                     },
                 },
             },
@@ -110,3 +107,20 @@ fetch('/values')
     .catch(error => {
         console.error('Error fetching student data:', error);
     });
+
+function getStudentDetailsById(id) {
+    const studentDetails = [
+        { id: 0, name: 'Arlene', grade: 'Kindergarten', teacher: 'Duarte' },
+        { id: 1, name: 'Bret', grade: 'Kindergarten', teacher: 'Duarte' },
+        { id: 2, name: 'Cindy', grade: 'Kindergarten', teacher: 'Duarte' },
+        { id: 3, name: 'Don', grade: 'Kindergarten', teacher: 'Duarte' },
+        { id: 4, name: 'Emily', grade: 'Kindergarten', teacher: 'Duarte' },
+        { id: 5, name: 'Franklin', grade: 'Kindergarten', teacher: 'Duarte' },
+        { id: 6, name: 'Gert', grade: 'Kindergarten', teacher: 'Duarte' },
+        { id: 7, name: 'Harold', grade: 'Kindergarten', teacher: 'Duarte' },
+        { id: 8, name: 'Idalia', grade: 'Kindergarten', teacher: 'Duarte' },
+        { id: 9, name: 'Jose', grade: 'Kindergarten', teacher: 'Duarte' },
+    ];
+
+    return studentDetails.find(student => student.id === id);
+}
