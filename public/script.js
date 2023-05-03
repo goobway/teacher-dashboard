@@ -95,7 +95,7 @@ function createStudentProfiles(studentData) {
     const profileDiv = document.createElement('div');
     profileDiv.className = 'student-profile';
     profileDiv.addEventListener('click', () => {
-      displayDrawingsModal(student.id);
+      displayDrawingsModal(studentData);
     });
 
     const studentName = document.createElement('h3');
@@ -132,7 +132,7 @@ function createStudentProfiles(studentData) {
 }
 
 // Function to display modal with student drawings
-function displayDrawingsModal(studentId) {
+function displayDrawingsModal(studentData) {
   const studentDrawings = studentData.filter(item => item.studentId === studentId);
   const modalOverlay = document.createElement('div');
   modalOverlay.classList.add('modal-overlay');
