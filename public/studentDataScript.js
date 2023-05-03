@@ -60,7 +60,11 @@ function createTable(studentData) {
 
 // Fetch values for student data table
 fetch('/values')
-  .then(response => response.json())
+  .then(response => response.text())
+  .then(text => {
+    console.log('Response text:', text);
+    return JSON.parse(text);
+  })
   .then(data => {
     const studentData = data.data;
     createTable(studentData);
