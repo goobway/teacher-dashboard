@@ -1,107 +1,78 @@
-loadNav();
+// Define the colors for each student ID
+const colors = [
+    'rgba(255, 99, 132, 0.5)',
+    'rgba(54, 162, 235, 0.5)',
+    'rgba(255, 206, 86, 0.5)',
+    'rgba(75, 192, 192, 0.5)',
+    'rgba(153, 102, 255, 0.5)',
+    'rgba(255, 159, 64, 0.5)',
+    'rgba(255, 99, 132, 0.5)',
+    'rgba(54, 162, 235, 0.5)',
+    'rgba(255, 206, 86, 0.5)',
+    'rgba(75, 192, 192, 0.5)',
+];
 
-fetch('/values')
-    .then(response => response.text())
-    .then(text => {
-        console.log('Response text:', text);
-        return JSON.parse(text);
-    })
-    .then(responseData => { // Rename 'data' to 'responseData' to avoid confusion
-        console.log('Parsed JSON:', responseData);
+function createScatterPlot() {
+    const ctx = document.getElementById('scatter-plot').getContext('2d');
+    const scatterData = formatScatterData(data);
 
-        const data = responseData.data; // Access the nested data array
-        const promptMap = {
-            '0_number': '0',
-            '1_number': '1',
-            '2_number': '2',
-            '3_number': '3',
-            '4_number': '4',
-            '5_number': '5',
-            '6_number': '6',
-            '7_number': '7',
-            '8_number': '8',
-            '9_number': '9',
-            'a_lower': 'a',
-            'A_upper': 'A',
-            'b_lower': 'b',
-            'B_upper': 'B',
-            'C_upper': 'C',
-            'd_lower': 'd',
-            'D_upper': 'D',
-            'e_lower': 'e',
-            'E_upper': 'E',
-            'f_lower': 'f',
-            'F_upper': 'F',
-            'g_lower': 'g',
-            'G_upper': 'G',
-            'h_lower': 'h',
-            'H_upper': 'H',
-            'i_lower': 'i',
-            'I_upper': 'I',
-            'j_lower': 'j',
-            'J_upper': 'J',
-            'K_upper': 'K',
-            'L_upper': 'L',
-            'm_lower': 'm',
-            'M_upper': 'M',
-            'n_lower': 'n',
-            'N_upper': 'N',
-            'P_upper': 'P',
-            'Q_upper': 'Q',
-            'r_lower': 'r',
-            'R_upper': 'R',
-            'S_upper': 'S',
-            't_lower': 't',
-            'T_upper': 'T',
-            'U_upper': 'U',
-            'V_upper': 'V',
-            'W_upper': 'W',
-            'X_upper': 'X',
-            'Y_upper': 'Y',
-            'Z_upper': 'Z'
-        };
-
-        const uniqueStudentIds = [...new Set(data.map(student => student.studentId))];
-        const colorMap = uniqueStudentIds.reduce((acc, id, index) => {
-          acc[id] = `hsl(${index * 36}, 70%, 50%)`;
-          return acc;
-        }, {});
-      
-        const chartData = data.map(student => ({
-          x: student.confidence,
-          y: promptMap[student.prompt],
-          borderColor: colorMap[student.studentId],
-          pointBackgroundColor: colorMap[student.studentId],
-          pointRadius: 5,
-          pointHoverRadius: 8,
-        }));
-
-        new Chart('scatter-chart', {
-            type: 'scatter',
-            data: {
-                datasets: [{
-                    data: chartData,
-                }],
+    new Chart(ctx, {
+        type: 'scatter',
+        data: {
+            datasets: scatterData
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'category',
+                },
+                y: {
+                    beginAtZero: true
+                },
             },
-            options: {
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Confidence Level',
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Confidence by Prompt and Student ID'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return `Student ID: ${context.dataset.label}, Confidence: ${context.parsed.y}`;
                         },
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Prompt',
-                        },
-                        type: 'category',
                     },
                 },
             },
-        });
-    })
-    .catch(error => {
-        console.error('Error fetching student data:', error);
+        },
     });
+}
+
+function formatScatterData(data) {
+    const scatterData = [];
+
+    data.forEach(item => {
+        const studentIndex = scatterData.findIndex(dataset => dataset.label === item.studentId);
+
+        if (studentIndex >= 0) {
+            scatterData[studentIndex].data.push({
+                x: item.prompt,
+                y: item.confidence,
+            });
+        } else {
+            scatterData.push({
+                label: item.studentId,
+                data: [
+                    {
+                        x: item.prompt,
+                        y: item.confidence,
+                    },
+                ],
+                backgroundColor: colors[item.studentId],
+            });
+        }
+    });
+
+    return scatterData;
+}
+
+createScatterPlot();
