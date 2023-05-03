@@ -154,7 +154,7 @@ function createStudentProfiles() {
 
 // Function to display modal with student drawings
 function displayDrawingsModal(studentProfiles, student) {
-  const studentDrawings = studentProfiles[student.id];
+  const studentDrawings = Object.values(studentProfiles[student.id].prompts);
   const modalOverlay = document.createElement('div');
   modalOverlay.classList.add('modal-overlay');
 
