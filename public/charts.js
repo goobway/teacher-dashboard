@@ -61,13 +61,19 @@ fetch('/values')
             'Z_upper': 'Z'
         };
 
+        const uniqueStudentIds = [...new Set(data.map(student => student.studentId))];
+        const colorMap = uniqueStudentIds.reduce((acc, id, index) => {
+          acc[id] = `hsl(${index * 36}, 70%, 50%)`;
+          return acc;
+        }, {});
+      
         const chartData = data.map(student => ({
-            x: student.confidence,
-            y: promptMap[student.prompt],
-            borderColor: `hsl(${student.studentId * 36}, 70%, 50%)`,
-            pointBackgroundColor: `hsl(${student.studentId * 36}, 70%, 50%)`,
-            pointRadius: 5,
-            pointHoverRadius: 8,
+          x: student.confidence,
+          y: promptMap[student.prompt],
+          borderColor: colorMap[student.studentId],
+          pointBackgroundColor: colorMap[student.studentId],
+          pointRadius: 5,
+          pointHoverRadius: 8,
         }));
 
         new Chart('scatter-chart', {
