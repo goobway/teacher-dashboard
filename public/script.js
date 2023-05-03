@@ -11,7 +11,7 @@ fetch('/values')
     return JSON.parse(text);
   })
   .then(data => {
-    studentData = data.data;
+    studentData = data.data; // assign the fetched data to the global variable
 
     // Create student profiles
     if (document.querySelector('.student-profiles')) {
@@ -29,7 +29,7 @@ fetch('/values')
     return JSON.parse(text);
   })
   .then(data => {
-    studentData = data.data;
+    studentData = data.data; // assign the fetched data to the global variable
 
     // Call createTable to create the student data table
     if (document.getElementById('student-data')) {
