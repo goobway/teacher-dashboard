@@ -94,7 +94,7 @@ fetch('/values')
 
     // Call initStudentDataTable to create the student data table
     if (document.getElementById('student-data')) {
-      initStudentDataTable();
+      createTable(studentData);
     }
 
     // Create student summaries
