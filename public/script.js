@@ -133,7 +133,7 @@ function createStudentProfiles(studentData) {
 
 // Function to display modal with student drawings
 function displayDrawingsModal(studentData) {
-  const studentDrawings = studentData.filter(item => item.studentId === studentId);
+  const studentIds = new Set(studentData.map(student => student.studentId));
   const modalOverlay = document.createElement('div');
   modalOverlay.classList.add('modal-overlay');
 
@@ -150,28 +150,34 @@ function displayDrawingsModal(studentData) {
   const drawingGrid = document.createElement('div');
   drawingGrid.classList.add('drawing-grid');
 
-  studentDrawings.forEach(item => {
-    const imageURL = matrixToDataURL(item.matrix);
+  studentIds.forEach(studentId => {
+    const studentDrawings = studentData.filter(item => item.studentId === studentId);
 
     const drawingDiv = document.createElement('div');
     drawingDiv.classList.add('drawing');
-    drawingDiv.addEventListener('mouseenter', () => {
-      const promptOverlay = document.createElement('div');
-      promptOverlay.classList.add('prompt-overlay');
-      promptOverlay.textContent = item.prompt;
-      drawingDiv.appendChild(promptOverlay);
-    });
-    drawingDiv.addEventListener('mouseleave', () => {
-      const promptOverlay = drawingDiv.querySelector('.prompt-overlay');
-      if (promptOverlay) {
-        promptOverlay.remove();
-      }
+
+    studentDrawings.forEach(item => {
+      const imageURL = matrixToDataURL(item.matrix);
+
+      const drawingImg = document.createElement('img');
+      drawingImg.src = imageURL;
+
+      drawingImg.addEventListener('mouseenter', () => {
+        const promptOverlay = document.createElement('div');
+        promptOverlay.classList.add('prompt-overlay');
+        promptOverlay.textContent = item.prompt;
+        drawingDiv.appendChild(promptOverlay);
+      });
+      drawingImg.addEventListener('mouseleave', () => {
+        const promptOverlay = drawingDiv.querySelector('.prompt-overlay');
+        if (promptOverlay) {
+          promptOverlay.remove();
+        }
+      });
+
+      drawingDiv.appendChild(drawingImg);
     });
 
-    const drawingImg = document.createElement('img');
-    drawingImg.src = imageURL;
-
-    drawingDiv.appendChild(drawingImg);
     drawingGrid.appendChild(drawingDiv);
   });
 
