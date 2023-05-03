@@ -58,9 +58,10 @@ function createStudentProfiles(studentData) {
 }
 
 fetch('/values')
-  .then(response => {
-    console.log('Response text:', response.text());
-    return response.json();
+  .then(response => response.text())
+  .then(text => {
+    console.log('Response text:', text);
+    return JSON.parse(text);
   })
   .then(data => {
     const studentData = data.data;
@@ -75,9 +76,10 @@ fetch('/values')
   });
 
 fetch('/values')
-  .then(response => {
-    console.log('Response text:', response.text());
-    return response.json();
+  .then(response => response.text())
+  .then(text => {
+    console.log('Response text:', text);
+    return JSON.parse(text);
   })
   .then(data => {
     const studentData = data.data;
