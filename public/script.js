@@ -2,32 +2,8 @@
 // Call loadNav to load the navigation menu
 loadNav();
 
-fetch('/values')
-  .then(response => response.json())
-  .then(data => {
-    const studentData = data.data;
-
-    // Call createBarChart to create the bar chart
-    if (document.getElementById('bar-chart')) {
-      createBarChart(studentData);
-    }
-
-    // Call initStudentDataTable to create the student data table
-    if (document.getElementById('student-data')) {
-      initStudentDataTable();
-    }
-
-    // Create student summaries
-    if (document.querySelector('.student-profiles')) {
-      createStudentSummaries(studentData);
-    }
-  })
-  .catch(error => {
-    console.error('Error fetching student data:', error);
-  });
-
 // Function for displaying student profiles
-function createStudentSummaries(studentData) {
+function createStudentProfiles(studentData) {
   const studentProfiles = [
     { id: 0, name: 'Arlene' },
     { id: 1, name: 'Bret' },
@@ -66,3 +42,22 @@ function createStudentSummaries(studentData) {
     container.appendChild(profile);
   });
 }
+
+fetch('/values')
+  .then(response => response.json())
+  .then(data => {
+    const studentData = data.data;
+
+    // Call initStudentDataTable to create the student data table
+    if (document.getElementById('student-data')) {
+      initStudentDataTable();
+    }
+
+    // Create student summaries
+    if (document.querySelector('.student-profiles')) {
+      createStudentProfiles(studentData);
+    }
+  })
+  .catch(error => {
+    console.error('Error fetching student data:', error);
+  });
