@@ -217,8 +217,8 @@ function createStudentProfiles() {
 //   document.body.appendChild(modalOverlay);
 // }
 function displayDrawingsModal() {
-  const studentId = new Set(window.studentData.map(student => student.studentId));
-  const studentDrawings = window.studentData.filter(item => item.studentId === studentId);
+  const studentId = new Set(studentData.map(student => student.studentId));
+  const studentDrawings = studentData.filter(item => item.studentId === studentId);
   const modalOverlay = document.createElement('div');
   modalOverlay.classList.add('modal-overlay');
 
