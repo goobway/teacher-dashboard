@@ -1,19 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Data</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
-  </style>
+    <meta charset="utf-8">
+    <title>Data Visualization</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
-  <h1>Student Data</h1>
-  <div id="student-data"></div>
-  <div id="student-data-2"></div>
-  <script src="display-data.js"></script>
+    <!-- Navigation Menu -->
+    <nav>
+        <ul>
+            <li><a href="#bar-chart">Bar Chart</a></li>
+            <li><a href="#student-data">Student Data</a></li>
+        </ul>
+    </nav>
+
+    <div id="bar-chart"></div>
+    <div id="student-data"></div>
+
+    <!-- JavaScript -->
+    <script src="barChart.js"></script>
+    <script src="dataTable.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
