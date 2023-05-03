@@ -118,7 +118,7 @@ function createStudentProfiles(studentData) {
     const profileDiv = document.createElement('div');
     profileDiv.className = 'student-profile';
     profileDiv.addEventListener('click', () => {
-      displayDrawingsModal(studentData);
+      displayDrawingsModal(student.id, studentData);
     });
 
     const studentName = document.createElement('h3');
@@ -155,8 +155,63 @@ function createStudentProfiles(studentData) {
 }
 
 // Function to display modal with student drawings
-function displayDrawingsModal(studentData) {
-  const studentIds = new Set(studentData.map(student => student.studentId));
+// function displayDrawingsModal(studentId, studentData) {
+//   const studentDrawings = studentData.filter(item => item.studentId === studentId);
+//   const modalOverlay = document.createElement('div');
+//   modalOverlay.classList.add('modal-overlay');
+
+//   const modal = document.createElement('div');
+//   modal.classList.add('modal');
+
+//   const closeButton = document.createElement('button');
+//   closeButton.classList.add('modal-close-button');
+//   closeButton.textContent = 'X';
+//   closeButton.addEventListener('click', () => {
+//     modalOverlay.remove();
+//   });
+
+//   const drawingGrid = document.createElement('div');
+//   drawingGrid.classList.add('drawing-grid');
+
+//   studentIds.forEach(studentId => {
+//     const studentDrawings = studentData.filter(item => item.studentId === studentId);
+
+//     const drawingDiv = document.createElement('div');
+//     drawingDiv.classList.add('drawing');
+
+//     studentDrawings.forEach(item => {
+//       const imageURL = matrixToDataURL(item.matrix);
+
+//       const drawingImg = document.createElement('img');
+//       drawingImg.src = imageURL;
+
+//       drawingImg.addEventListener('mouseenter', () => {
+//         const promptOverlay = document.createElement('div');
+//         promptOverlay.classList.add('prompt-overlay');
+//         promptOverlay.textContent = item.prompt;
+//         drawingDiv.appendChild(promptOverlay);
+//       });
+//       drawingImg.addEventListener('mouseleave', () => {
+//         const promptOverlay = drawingDiv.querySelector('.prompt-overlay');
+//         if (promptOverlay) {
+//           promptOverlay.remove();
+//         }
+//       });
+
+//       drawingDiv.appendChild(drawingImg);
+//     });
+
+//     drawingGrid.appendChild(drawingDiv);
+//   });
+
+//   modal.appendChild(closeButton);
+//   modal.appendChild(drawingGrid);
+//   modalOverlay.appendChild(modal);
+
+//   document.body.appendChild(modalOverlay);
+// }
+function displayDrawingsModal(studentData, studentId) {
+  const studentDrawings = studentData.filter(item => item.studentId === studentId);
   const modalOverlay = document.createElement('div');
   modalOverlay.classList.add('modal-overlay');
 
@@ -173,34 +228,28 @@ function displayDrawingsModal(studentData) {
   const drawingGrid = document.createElement('div');
   drawingGrid.classList.add('drawing-grid');
 
-  studentIds.forEach(studentId => {
-    const studentDrawings = studentData.filter(item => item.studentId === studentId);
+  studentDrawings.forEach(item => {
+    const imageURL = matrixToDataURL(item.matrix);
 
     const drawingDiv = document.createElement('div');
     drawingDiv.classList.add('drawing');
-
-    studentDrawings.forEach(item => {
-      const imageURL = matrixToDataURL(item.matrix);
-
-      const drawingImg = document.createElement('img');
-      drawingImg.src = imageURL;
-
-      drawingImg.addEventListener('mouseenter', () => {
-        const promptOverlay = document.createElement('div');
-        promptOverlay.classList.add('prompt-overlay');
-        promptOverlay.textContent = item.prompt;
-        drawingDiv.appendChild(promptOverlay);
-      });
-      drawingImg.addEventListener('mouseleave', () => {
-        const promptOverlay = drawingDiv.querySelector('.prompt-overlay');
-        if (promptOverlay) {
-          promptOverlay.remove();
-        }
-      });
-
-      drawingDiv.appendChild(drawingImg);
+    drawingDiv.addEventListener('mouseenter', () => {
+      const promptOverlay = document.createElement('div');
+      promptOverlay.classList.add('prompt-overlay');
+      promptOverlay.textContent = item.prompt;
+      drawingDiv.appendChild(promptOverlay);
+    });
+    drawingDiv.addEventListener('mouseleave', () => {
+      const promptOverlay = drawingDiv.querySelector('.prompt-overlay');
+      if (promptOverlay) {
+        promptOverlay.remove();
+      }
     });
 
+    const drawingImg = document.createElement('img');
+    drawingImg.src = imageURL;
+
+    drawingDiv.appendChild(drawingImg);
     drawingGrid.appendChild(drawingDiv);
   });
 
@@ -210,6 +259,8 @@ function displayDrawingsModal(studentData) {
 
   document.body.appendChild(modalOverlay);
 }
+
+
 
 fetch('/values')
   .then(response => response.text())
