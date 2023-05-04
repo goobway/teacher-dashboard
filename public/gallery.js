@@ -25,17 +25,21 @@ function matrixToDataURL(matrix) {
     return canvas.toDataURL();
 }
 
-function displayDrawings(studentData) {
-    studentData.forEach(item => {
-        const studentSection = document.getElementById(`student-${item.studentId}`);
-        const imageURL = matrixToDataURL(item.matrix);
+function displayDrawings(drawings) {
+    const studentSections = document.querySelector('.student-sections');
 
-        const img = document.createElement('img');
-        img.src = imageURL;
-        img.width = 32;
-        img.height = 32;
-        img.alt = 'Drawing';
-        img.title = `Prompt: ${item.prompt}`;
+    drawings.forEach(drawing => {
+        const studentId = drawing.studentId;
+        const studentSection = studentSections.querySelector(`#student-${studentId}`);
+        if (!studentSection) {
+            console.error(`Error: Could not find student section for student ID ${studentId}`);
+            return;
+        }
+
+        const img = new Image();
+        img.src = matrixToDataURL(drawing.matrix);
+        img.alt = `Drawing by student ${studentId}`;
+        img.className = 'student-drawing';
 
         studentSection.appendChild(img);
     });
