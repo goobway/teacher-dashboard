@@ -199,12 +199,6 @@ function createStudentProfiles() {
     const studentOverallScore = document.createElement('p');
     studentOverallScore.textContent = `Overall Score: ${student.overallScore.toFixed(2)}%`;
 
-    // const studentStrengths = document.createElement('p');
-    // studentStrengths.textContent = `Strengths: ${student.strengths.join(', ')}`;
-
-    // const studentAreasOfImprovement = document.createElement('p');
-    // studentAreasOfImprovement.textContent = `Areas of Improvement: ${student.areasOfImprovement.join(', ')}`;
-
     const studentStrengths = document.createElement('p');
     studentStrengths.textContent = `Strengths: ${student.strengths.map(prompt => promptMapping[prompt] || prompt).join(', ')}`;
 

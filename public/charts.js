@@ -1,3 +1,5 @@
+loadNav();
+
 // Define the colors for each student ID
 const colors = [
     'rgba(255, 99, 132, 0.5)',
