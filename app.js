@@ -93,10 +93,6 @@ app.get('/values', async (req, res) => {
 app.delete('/delete/:prompt', async (req, res) => {
   const prompt = req.params.prompt;
 
-  if (isNaN(prompt)) {
-    return res.status(400).json({ error: 'Invalid prompt.' });
-  }
-
   try {
     // Connect to the MongoDB server
     await client.connect();
@@ -105,7 +101,7 @@ app.delete('/delete/:prompt', async (req, res) => {
     // Get the 'frame_of_knowledge' collection
     const collection = db.collection('frame_of_knowledge');
 
-    // Delete the document with the specified student ID
+    // Delete the document with the specified prompt
     const result = await collection.deleteMany({ prompt: prompt });
 
     if (result.deletedCount === 0) {
