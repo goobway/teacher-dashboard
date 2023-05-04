@@ -91,7 +91,7 @@ app.get('/values', async (req, res) => {
 
 // Endpoint to delete data for a specific prompt
 app.delete('/delete/:prompt', async (req, res) => {
-  const studentId = parseInt(req.params.prompt);
+  const prompt = parseInt(req.params.prompt);
 
   if (isNaN(prompt)) {
     return res.status(400).json({ error: 'Invalid prompt.' });
@@ -106,7 +106,7 @@ app.delete('/delete/:prompt', async (req, res) => {
     const collection = db.collection('frame_of_knowledge');
 
     // Delete the document with the specified student ID
-    const result = await collection.deleteMany({ prompt: prompt });
+    const result = await collection.deleteOne({ prompt: prompt });
 
     if (result.deletedCount === 0) {
       res.status(404).json({ message: 'No data found with the specified prompt.' });
