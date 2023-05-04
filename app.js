@@ -93,7 +93,7 @@ app.get('/values', async (req, res) => {
 app.delete('/delete/:prompt', async (req, res) => {
   const studentId = parseInt(req.params.prompt);
 
-  if (isNaN(studentId)) {
+  if (isNaN(prompt)) {
     return res.status(400).json({ error: 'Invalid prompt.' });
   }
 
