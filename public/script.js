@@ -217,6 +217,18 @@ function createStudentProfiles() {
   });
 }
 
+function displayCorrectClassificationsPercentage() {
+  fetch('/correct-classifications-percentage')
+    .then(response => response.json())
+    .then(data => {
+      const percentageElement = document.getElementById('correct-classifications-percentage');
+      percentageElement.textContent = `${data.percentage.toFixed(2)}%`;
+    })
+    .catch(error => {
+      console.error('Error fetching correct classifications percentage:', error);
+    });
+}
+
 let studentData; // declare the global studentData variable
 
 fetch('/values')
@@ -232,6 +244,10 @@ fetch('/values')
     if (document.querySelector('.student-profiles')) {
       createStudentProfiles();
     }
+
+    // Display the overall percentage of correct classifications
+    displayCorrectClassificationsPercentage();
+    
   })
   .catch(error => {
     console.error('Error fetching student data:', error);
