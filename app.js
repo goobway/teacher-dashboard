@@ -89,12 +89,12 @@ app.get('/values', async (req, res) => {
   }
 });
 
-// Endpoint to delete data for a specific student ID
-app.delete('/delete/:studentId', async (req, res) => {
-  const studentId = parseInt(req.params.studentId);
+// Endpoint to delete data for a specific prompt
+app.delete('/delete/:prompt', async (req, res) => {
+  const studentId = parseInt(req.params.prompt);
 
   if (isNaN(studentId)) {
-    return res.status(400).json({ error: 'Invalid student ID.' });
+    return res.status(400).json({ error: 'Invalid prompt.' });
   }
 
   try {
@@ -106,10 +106,10 @@ app.delete('/delete/:studentId', async (req, res) => {
     const collection = db.collection('frame_of_knowledge');
 
     // Delete the document with the specified student ID
-    const result = await collection.deleteOne({ studentId: studentId });
+    const result = await collection.deleteMany({ prompt: prompt });
 
     if (result.deletedCount === 0) {
-      res.status(404).json({ message: 'No data found with the specified student ID.' });
+      res.status(404).json({ message: 'No data found with the specified prompt.' });
     } else {
       res.status(200).json({ message: 'Data deleted successfully.' });
     }
