@@ -246,8 +246,8 @@ fetch('/values')
     }
 
     // Display the overall percentage of correct classifications
-    displayCorrectClassificationsPercentage();
-    
+    // displayCorrectClassificationsPercentage();
+
   })
   .catch(error => {
     console.error('Error fetching student data:', error);
