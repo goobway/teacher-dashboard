@@ -115,9 +115,9 @@ function createStudentProfiles() {
   Object.values(studentProfiles).forEach((student) => {
     const profileDiv = document.createElement('div');
     profileDiv.className = 'student-profile';
-    profileDiv.addEventListener('click', () => {
-      displayDrawingsModal(studentData, student);
-    });
+    // profileDiv.addEventListener('click', () => {
+    //   displayDrawingsModal(studentData, student);
+    // });
 
     const studentName = document.createElement('h3');
     studentName.textContent = student.name;
@@ -153,59 +153,59 @@ function createStudentProfiles() {
 }
 
 // Function to display modal with student drawings
-function displayDrawingsModal(studentData, student) {
-  console.log("Entered into displayDrawingsModal function");
-  const studentDrawings = studentData.filter(item => item.studentId === student.id);
-  const modalOverlay = document.createElement('div');
-  modalOverlay.classList.add('modal-overlay');
-  console.log("modal-overlay added");
+// function displayDrawingsModal(studentData, student) {
+//   console.log("Entered into displayDrawingsModal function");
+//   const studentDrawings = studentData.filter(item => item.studentId === student.id);
+//   const modalOverlay = document.createElement('div');
+//   modalOverlay.classList.add('modal-overlay');
+//   console.log("modal-overlay added");
 
-  const modal = document.createElement('div');
-  modal.classList.add('modal');
-  console.log("modal added");
+//   const modal = document.createElement('div');
+//   modal.classList.add('modal');
+//   console.log("modal added");
 
-  const closeButton = document.createElement('button');
-  closeButton.classList.add('modal-close-button');
-  closeButton.textContent = 'X';
-  closeButton.addEventListener('click', () => {
-    console.log("Exit clicked");
-    modalOverlay.remove();
-  });
+//   const closeButton = document.createElement('button');
+//   closeButton.classList.add('modal-close-button');
+//   closeButton.textContent = 'X';
+//   closeButton.addEventListener('click', () => {
+//     console.log("Exit clicked");
+//     modalOverlay.remove();
+//   });
 
-  const drawingGrid = document.createElement('div');
-  drawingGrid.classList.add('drawing-grid');
+//   const drawingGrid = document.createElement('div');
+//   drawingGrid.classList.add('drawing-grid');
 
-  studentDrawings.forEach(item => {
-    const imageURL = matrixToDataURL(item.matrix);
+//   studentDrawings.forEach(item => {
+//     const imageURL = matrixToDataURL(item.matrix);
 
-    const drawingDiv = document.createElement('div');
-    drawingDiv.classList.add('drawing');
-    drawingDiv.addEventListener('mouseenter', () => {
-      const promptOverlay = document.createElement('div');
-      promptOverlay.classList.add('prompt-overlay');
-      promptOverlay.textContent = item.prompt;
-      drawingDiv.appendChild(promptOverlay);
-    });
-    drawingDiv.addEventListener('mouseleave', () => {
-      const promptOverlay = drawingDiv.querySelector('.prompt-overlay');
-      if (promptOverlay) {
-        promptOverlay.remove();
-      }
-    });
+//     const drawingDiv = document.createElement('div');
+//     drawingDiv.classList.add('drawing');
+//     drawingDiv.addEventListener('mouseenter', () => {
+//       const promptOverlay = document.createElement('div');
+//       promptOverlay.classList.add('prompt-overlay');
+//       promptOverlay.textContent = item.prompt;
+//       drawingDiv.appendChild(promptOverlay);
+//     });
+//     drawingDiv.addEventListener('mouseleave', () => {
+//       const promptOverlay = drawingDiv.querySelector('.prompt-overlay');
+//       if (promptOverlay) {
+//         promptOverlay.remove();
+//       }
+//     });
 
-    const drawingImg = document.createElement('img');
-    drawingImg.src = imageURL;
+//     const drawingImg = document.createElement('img');
+//     drawingImg.src = imageURL;
 
-    drawingDiv.appendChild(drawingImg);
-    drawingGrid.appendChild(drawingDiv);
-  });
+//     drawingDiv.appendChild(drawingImg);
+//     drawingGrid.appendChild(drawingDiv);
+//   });
 
-  modal.appendChild(closeButton);
-  modal.appendChild(drawingGrid);
-  modalOverlay.appendChild(modal);
+//   modal.appendChild(closeButton);
+//   modal.appendChild(drawingGrid);
+//   modalOverlay.appendChild(modal);
 
-  document.body.appendChild(modalOverlay);
-}
+//   document.body.appendChild(modalOverlay);
+// }
 
 let studentData; // declare the global studentData variable
 
