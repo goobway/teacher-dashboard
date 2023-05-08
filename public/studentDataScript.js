@@ -26,38 +26,6 @@ function matrixToDataURL(matrix) {
   return canvas.toDataURL();
 }
 
-// function createTable(studentData) {
-//   const table = document.createElement('table');
-//   table.style.width = '100%';
-//   table.setAttribute('border', '1');
-
-//   const header = table.createTHead();
-//   const headerRow = header.insertRow();
-//   headerRow.innerHTML = `
-//       <th>Student ID</th>
-//       <th>Prompt</th>
-//       <th>Classification</th>
-//       <th>Confidence</th>
-//       <th>Image</th>
-//     `;
-
-//   const tbody = document.createElement('tbody');
-//   studentData.forEach(item => {
-//     const row = tbody.insertRow(0); // Insert the new row at the beginning of the table body
-//     const imageURL = matrixToDataURL(item.matrix);
-//     row.innerHTML = `
-//         <td>${item.studentId}</td>
-//         <td>${item.prompt}</td>
-//         <td>${item.classification}</td>
-//         <td>${(item.confidence * 100).toFixed(2)}%</td>
-//         <td><img src="${imageURL}" width="32" height="32" alt="Image"></td>
-//       `;
-//   });
-
-//   table.appendChild(tbody);
-//   document.getElementById('student-data').appendChild(table);
-// }
-
 function createTable(studentData) {
   const table = document.createElement('table');
   table.style.width = '100%';
@@ -108,6 +76,7 @@ function createTable(studentData) {
     updateButton.addEventListener('click', () => {
       const newStudentId = parseInt(newStudentIdSelect.value);
       const itemId = item._id;
+      console.log('Submission ID:', itemId); // Add this line to log the submission ID value to the console
       fetch(`/values/${itemId}`, {
         method: 'PUT',
         headers: {
@@ -134,7 +103,7 @@ function createTable(studentData) {
         .catch(error => {
           console.error('Error updating student data:', error);
         });
-    });
+    });    
     const buttonCell = row.insertCell();
     buttonCell.appendChild(updateButton);
   });
