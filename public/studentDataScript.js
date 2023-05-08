@@ -25,12 +25,14 @@ function matrixToDataURL(matrix) {
   ctx.putImageData(imageData, 0, 0);
   return canvas.toDataURL();
 }
+
+// function createTable(studentData) {
 //   const table = document.createElement('table');
 //   table.style.width = '100%';
 //   table.setAttribute('border', '1');
 
 //   const header = table.createTHead();
-//   const headerRow = header.insertRow(0);
+//   const headerRow = header.insertRow();
 //   headerRow.innerHTML = `
 //       <th>Student ID</th>
 //       <th>Prompt</th>
@@ -41,7 +43,7 @@ function matrixToDataURL(matrix) {
 
 //   const tbody = document.createElement('tbody');
 //   studentData.forEach(item => {
-//     const row = tbody.insertRow();
+//     const row = tbody.insertRow(0); // Insert the new row at the beginning of the table body
 //     const imageURL = matrixToDataURL(item.matrix);
 //     row.innerHTML = `
 //         <td>${item.studentId}</td>
@@ -56,8 +58,6 @@ function matrixToDataURL(matrix) {
 //   document.getElementById('student-data').appendChild(table);
 // }
 
-// Fetch values for student data table
-
 function createTable(studentData) {
   const table = document.createElement('table');
   table.style.width = '100%';
@@ -66,6 +66,7 @@ function createTable(studentData) {
   const header = table.createTHead();
   const headerRow = header.insertRow();
   headerRow.innerHTML = `
+      <th>New Student ID</th>
       <th>Student ID</th>
       <th>Prompt</th>
       <th>Classification</th>
@@ -76,14 +77,66 @@ function createTable(studentData) {
   const tbody = document.createElement('tbody');
   studentData.forEach(item => {
     const row = tbody.insertRow(0); // Insert the new row at the beginning of the table body
-    const imageURL = matrixToDataURL(item.matrix);
-    row.innerHTML = `
+
+    // Create a dropdown menu for the new student ID
+    const newStudentIdCell = row.insertCell();
+    const newStudentIdSelect = document.createElement('select');
+    for (let i = 0; i < 10; i++) {
+      const option = document.createElement('option');
+      option.value = i;
+      option.text = i;
+      newStudentIdSelect.appendChild(option);
+    }
+    newStudentIdCell.appendChild(newStudentIdSelect);
+
+    row.innerHTML += `
         <td>${item.studentId}</td>
         <td>${item.prompt}</td>
         <td>${item.classification}</td>
         <td>${(item.confidence * 100).toFixed(2)}%</td>
-        <td><img src="${imageURL}" width="32" height="32" alt="Image"></td>
       `;
+
+    const imageURL = matrixToDataURL(item.matrix);
+    const imageCell = row.insertCell();
+    const image = new Image(32, 32);
+    image.src = imageURL;
+    imageCell.appendChild(image);
+
+    // Add a button to update the student ID
+    const updateButton = document.createElement('button');
+    updateButton.innerText = 'Update';
+    updateButton.addEventListener('click', () => {
+      const newStudentId = parseInt(newStudentIdSelect.value);
+      const itemId = item._id;
+      fetch(`/values/${itemId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ studentId: newStudentId }),
+      })
+        .then(response => response.text())
+        .then(text => {
+          console.log('Response text:', text);
+          // Reload the table to reflect the updated data
+          fetch('/values')
+            .then(response => response.text())
+            .then(text => {
+              console.log('Response text:', text);
+              const data = JSON.parse(text).data;
+              table.innerHTML = '';
+              createTable(data);
+            })
+            .catch(error => {
+              console.error('Error fetching student data:', error);
+            });
+        })
+        .catch(error => {
+          console.error('Error updating student data:', error);
+        });
+    });
+    const buttonCell = row.insertCell();
+    buttonCell.appendChild(updateButton);
   });
 
   table.appendChild(tbody);
