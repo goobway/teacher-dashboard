@@ -74,7 +74,7 @@ function createTable(studentData) {
     const updateButton = document.createElement('button');
     updateButton.innerText = 'Update';
     updateButton.addEventListener('click', () => {
-      const newStudentId = parseInt(newStudentIdSelect.value);
+      const newStudentId = Number(newStudentIdSelect.value);
       const itemId = item._id;
       console.log('Updating submission ID:', itemId, 'with new student ID:', newStudentId);
       fetch(`/values/${itemId}`, {
