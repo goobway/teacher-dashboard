@@ -90,11 +90,11 @@ app.get('/values', async (req, res) => {
 });
 
 // Endpoint to update the studentId for a specific submission
-// Endpoint to update the studentId for a specific submission
 app.put('/values/:submissionId', async (req, res) => {
+  console.log('PUT request received');
   const submissionId = req.params.submissionId;
   const { studentId } = req.body;
-  console.log('Updating submission ID:', submissionId, 'with new student ID:', studentId); // Add this line
+  console.log('Updating submission ID:', submissionId, 'with new student ID:', studentId);
 
   if (typeof studentId !== 'number' || !Number.isInteger(studentId) || studentId < 0 || studentId > 9) {
     return res.status(400).json({ error: 'Invalid student ID format.' });
