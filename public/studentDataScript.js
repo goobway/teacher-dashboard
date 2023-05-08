@@ -76,8 +76,7 @@ function createTable(studentData) {
     updateButton.addEventListener('click', () => {
       const newStudentId = parseInt(newStudentIdSelect.value);
       const itemId = item._id;
-      //console.log('Updating submission ID:', itemId, 'with new student ID:', newStudentId);
-      console.log('Updating submission ID:', item._id);
+      console.log('Updating submission ID:', itemId, 'with new student ID:', newStudentId);
       fetch(`/values/${itemId}`, {
         method: 'PUT',
         headers: {
@@ -104,7 +103,7 @@ function createTable(studentData) {
         .catch(error => {
           console.error('Error updating student data:', error);
         });
-    });    
+    });
     const buttonCell = row.insertCell();
     buttonCell.appendChild(updateButton);
   });
