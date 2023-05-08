@@ -44,32 +44,35 @@ function createTable(studentData) {
     `;
 
   const tbody = document.createElement('tbody');
+
   studentData.forEach((item, index) => {
     const row = tbody.insertRow();
     const imageURL = matrixToDataURL(item.matrix);
     const studentIdCell = document.createElement('td');
-    console.log('Item studentId:', item.studentId);
-    const studentIdSelect = createStudentIdSelect(item.studentId, index);
+    const studentIdSelect = createStudentIdSelect(item.studentId);
     studentIdCell.appendChild(studentIdSelect);
     row.appendChild(studentIdCell);
 
     row.innerHTML += `
-    <td>${item.prompt}</td>
-    <td>${item.classification}</td>
-    <td>${(item.confidence * 100).toFixed(2)}%</td>
-    <td><img src="${imageURL}" width="32" height="32" alt="Image"></td>
-  `;
+      <td>${item.prompt}</td>
+      <td>${item.classification}</td>
+      <td>${(item.confidence * 100).toFixed(2)}%</td>
+      <td><img src="${imageURL}" width="32" height="32" alt="Image"></td>
+    `;
 
+    // Add an event listener for the select element
+    studentIdSelect.addEventListener("change", (e) => {
+      updateStudentId(item._id, parseInt(e.target.value));
+    });
   });
 
   table.appendChild(tbody);
   document.getElementById('student-data').appendChild(table);
 }
 
-function createStudentIdSelect(selectedId, index) {
-  console.log('SelectedId:', selectedId);
+function createStudentIdSelect(selectedId) {
   const select = document.createElement('select');
-  for (let i = 1; i <= 10; i++) { // Change the loop start value to 1 and end value to 10
+  for (let i = 0; i < 10; i++) {
     const option = document.createElement('option');
     option.value = i;
     option.text = i;
@@ -79,42 +82,28 @@ function createStudentIdSelect(selectedId, index) {
     select.appendChild(option);
   }
 
-  select.addEventListener('change', function (event) {
-    const newStudentId = parseInt(event.target.value);
-    updateStudentId(index, newStudentId);
-  });
-
   return select;
 }
 
-function updateStudentId(index, newStudentId) {
-  const item = studentData[index];
-
-  // Update the student ID in the local studentData array
-  item.studentId = newStudentId;
-
-  // Send the updated data to the server
-  fetch(`/values/${item.id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      studentId: newStudentId
-    })
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Student ID updated successfully:', data);
-    })
-    .catch(error => {
-      console.error('Error updating student ID:', error);
+async function updateStudentId(submissionId, newStudentId) {
+  try {
+    const response = await fetch(`/update/${submissionId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ studentId: newStudentId }),
     });
+
+    if (!response.ok) {
+      throw new Error("Error updating student ID");
+    }
+
+    const data = await response.json();
+    console.log(data.message);
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 fetch('/values')
@@ -125,7 +114,7 @@ fetch('/values')
   })
   .then(data => {
     studentData = data.data;
-    console.log('Student data:', studentData); // Add this line
+    console.log('Student data:', studentData);
     createTable(studentData);
   })
   .catch(error => {
