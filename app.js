@@ -1,7 +1,7 @@
 // Import required modules
 const express = require('express');
 const bodyParser = require('body-parser');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId} = require('mongodb');
 const path = require('path');
 
 // Create an Express app and set the listening port
@@ -90,7 +90,40 @@ app.get('/values', async (req, res) => {
 });
 
 // Endpoint to update the studentId for a specific submission
-app.put('/update/:submissionId', async (req, res) => {
+// app.put('/update/:submissionId', async (req, res) => {
+//   const submissionId = req.params.submissionId;
+//   const { studentId } = req.body;
+
+//   if (typeof studentId !== 'number' || !Number.isInteger(studentId) || studentId < 0 || studentId > 9) {
+//     return res.status(400).json({ error: 'Invalid student ID format.' });
+//   }
+
+//   try {
+//     // Connect to the MongoDB server
+//     await client.connect();
+//     // Get the 'dashboardData' database
+//     const db = client.db('dashboardData');
+//     // Get the 'frame_of_knowledge' collection
+//     const collection = db.collection('frame_of_knowledge');
+
+//     // Update the document with the specified submission ID
+//     const result = await collection.updateOne({ _id: new ObjectId(submissionId) }, { $set: { studentId } });
+
+//     if (result.matchedCount === 0) {
+//       res.status(404).json({ message: 'No submission found with the specified ID.' });
+//     } else {
+//       res.status(200).json({ message: 'Student ID updated successfully.' });
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send('Error updating student ID');
+//   } finally {
+//     // Close the MongoDB connection
+//     await client.close();
+//   }
+// });
+
+app.put('/values/:submissionId', async (req, res) => {
   const submissionId = req.params.submissionId;
   const { studentId } = req.body;
 
@@ -107,7 +140,7 @@ app.put('/update/:submissionId', async (req, res) => {
     const collection = db.collection('frame_of_knowledge');
 
     // Update the document with the specified submission ID
-    const result = await collection.updateOne({ _id: new ObjectId(submissionId) }, { $set: { studentId } });
+    const result = await collection.updateOne({ _id: ObjectId(submissionId) }, { $set: { studentId } });
 
     if (result.matchedCount === 0) {
       res.status(404).json({ message: 'No submission found with the specified ID.' });
