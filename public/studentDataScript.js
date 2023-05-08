@@ -47,12 +47,13 @@ function createTable(studentData) {
   studentData.forEach((item, index) => {
     const row = tbody.insertRow();
     const imageURL = matrixToDataURL(item.matrix);
-    // const studentIdCell = document.createElement('td');
-    // const studentIdSelect = createStudentIdSelect(item.studentId, index);
-    // studentIdCell.appendChild(studentIdSelect);
-    // row.appendChild(studentIdCell);
+    const studentIdCell = document.createElement('td');
     const studentIdSelect = createStudentIdSelect(item.studentId, index);
-    row.appendChild(studentIdSelect);
+    studentIdCell.appendChild(studentIdSelect);
+    row.appendChild(studentIdCell);
+
+    // const studentIdSelect = createStudentIdSelect(item.studentId, index);
+    // row.appendChild(studentIdSelect);
 
     // row.innerHTML += `
     //     <td>${item.prompt}</td>
@@ -76,7 +77,7 @@ function createTable(studentData) {
 
 function createStudentIdSelect(selectedId, index) {
   const select = document.createElement('select');
-  for (let i = 0; i <= 9; i++) {
+  for (let i = 1; i <= 10; i++) { // Change the loop start value to 1 and end value to 10
     const option = document.createElement('option');
     option.value = i;
     option.text = i;
