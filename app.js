@@ -94,6 +94,7 @@ app.get('/values', async (req, res) => {
 app.put('/values/:submissionId', async (req, res) => {
   const submissionId = req.params.submissionId;
   const { studentId } = req.body;
+  console.log('Updating submission ID:', submissionId, 'with new student ID:', studentId); // Add this line
 
   if (typeof studentId !== 'number' || !Number.isInteger(studentId) || studentId < 0 || studentId > 9) {
     return res.status(400).json({ error: 'Invalid student ID format.' });
