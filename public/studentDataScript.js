@@ -34,7 +34,7 @@ function createTable(studentData) {
   table.setAttribute('border', '1');
 
   const header = table.createTHead();
-  const headerRow = header.insertRow(0);
+  const headerRow = header.insertRow();
   headerRow.innerHTML = `
       <th>Student ID</th>
       <th>Prompt</th>
@@ -45,26 +45,43 @@ function createTable(studentData) {
 
   const tbody = document.createElement('tbody');
   studentData.forEach((item, index) => {
-    const row = tbody.insertRow(0);
+    const row = tbody.insertRow();
     const imageURL = matrixToDataURL(item.matrix);
-    row.innerHTML = `
-        <td><input type="number" value="${item.studentId}" data-index="${index}" /></td>
+    const studentIdCell = document.createElement('td');
+    const studentIdSelect = createStudentIdSelect(item.studentId, index);
+    studentIdCell.appendChild(studentIdSelect);
+    row.appendChild(studentIdCell);
+
+    row.innerHTML += `
         <td>${item.prompt}</td>
         <td>${item.classification}</td>
         <td>${(item.confidence * 100).toFixed(2)}%</td>
         <td><img src="${imageURL}" width="32" height="32" alt="Image"></td>
       `;
-
-    const input = row.querySelector('input');
-    input.addEventListener('change', (event) => {
-      const index = parseInt(event.target.getAttribute('data-index'));
-      const newStudentId = parseInt(event.target.value);
-      updateStudentId(index, newStudentId);
-    });
   });
 
   table.appendChild(tbody);
   document.getElementById('student-data').appendChild(table);
+}
+
+function createStudentIdSelect(selectedId, index) {
+  const select = document.createElement('select');
+  for (let i = 0; i <= 9; i++) {
+    const option = document.createElement('option');
+    option.value = i;
+    option.text = i;
+    if (i === selectedId) {
+      option.selected = true;
+    }
+    select.appendChild(option);
+  }
+
+  select.addEventListener('change', function (event) {
+    const newStudentId = parseInt(event.target.value);
+    updateStudentId(index, newStudentId);
+  });
+
+  return select;
 }
 
 function updateStudentId(index, newStudentId) {
