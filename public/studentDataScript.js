@@ -53,6 +53,7 @@ function createTable(studentData) {
       const option = document.createElement('option');
       option.value = i;
       option.text = i;
+      console.log(`Added option with value ${i}`);
       newStudentIdSelect.appendChild(option);
     }
     newStudentIdCell.appendChild(newStudentIdSelect);
