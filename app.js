@@ -109,7 +109,7 @@ app.put('/values/:submissionId', async (req, res) => {
     const collection = db.collection('frame_of_knowledge');
 
     // Update the document with the specified submission ID
-    const result = await collection.updateOne({ _id: ObjectId(submissionId) }, { $set: { studentId } });
+    const result = await collection.updateOne({ _id: new ObjectId(submissionId) }, { $set: { studentId } });
     
     console.log(result); // Log the result variable to the console
 
