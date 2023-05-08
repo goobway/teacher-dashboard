@@ -49,7 +49,7 @@ function createTable(studentData) {
     const row = tbody.insertRow();
     const imageURL = matrixToDataURL(item.matrix);
     const studentIdCell = document.createElement('td');
-    const studentIdSelect = createStudentIdSelect(item.studentId);
+    const studentIdSelect = createStudentIdSelect(item.studentId, item._id);
     studentIdCell.appendChild(studentIdSelect);
     row.appendChild(studentIdCell);
 
@@ -70,8 +70,9 @@ function createTable(studentData) {
   document.getElementById('student-data').appendChild(table);
 }
 
-function createStudentIdSelect(selectedId) {
+function createStudentIdSelect(selectedId, itemId) {
   const select = document.createElement('select');
+  select.setAttribute('data-id', itemId);
   for (let i = 0; i < 10; i++) {
     const option = document.createElement('option');
     option.value = i;
@@ -101,6 +102,17 @@ async function updateStudentId(submissionId, newStudentId) {
 
     const data = await response.json();
     console.log(data.message);
+
+    // Find the select element with the data-id attribute equal to submissionId
+    const selectElement = document.querySelector(`select[data-id="${submissionId}"]`);
+    if (selectElement) {
+      // Find the row that contains the select element
+      const row = selectElement.closest('tr');
+      if (row) {
+        // Update the student ID cell
+        row.cells[0].innerText = newStudentId;
+      }
+    }
   } catch (error) {
     console.error(error);
   }
