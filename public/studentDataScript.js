@@ -107,7 +107,12 @@ async function updateStudentId(submissionId, newStudentId) {
 }
 
 fetch('/values')
-  .then(response => response.json())
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error ${response.status}`);
+    }
+    return response.text();
+  })
   .then(text => {
     console.log('Response text:', text);
     return JSON.parse(text);
