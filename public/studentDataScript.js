@@ -47,17 +47,27 @@ function createTable(studentData) {
   studentData.forEach((item, index) => {
     const row = tbody.insertRow();
     const imageURL = matrixToDataURL(item.matrix);
-    const studentIdCell = document.createElement('td');
+    // const studentIdCell = document.createElement('td');
+    // const studentIdSelect = createStudentIdSelect(item.studentId, index);
+    // studentIdCell.appendChild(studentIdSelect);
+    // row.appendChild(studentIdCell);
     const studentIdSelect = createStudentIdSelect(item.studentId, index);
-    studentIdCell.appendChild(studentIdSelect);
-    row.appendChild(studentIdCell);
+    row.appendChild(studentIdSelect);
+
+    // row.innerHTML += `
+    //     <td>${item.prompt}</td>
+    //     <td>${item.classification}</td>
+    //     <td>${(item.confidence * 100).toFixed(2)}%</td>
+    //     <td><img src="${imageURL}" width="32" height="32" alt="Image"></td>
+    //   `;
 
     row.innerHTML += `
-        <td>${item.prompt}</td>
-        <td>${item.classification}</td>
-        <td>${(item.confidence * 100).toFixed(2)}%</td>
-        <td><img src="${imageURL}" width="32" height="32" alt="Image"></td>
-      `;
+    <td>${item.prompt}</td>
+    <td>${item.classification}</td>
+    <td>${(item.confidence * 100).toFixed(2)}%</td>
+    <td><img src="${imageURL}" width="32" height="32" alt="Image"></td>
+  `;
+
   });
 
   table.appendChild(tbody);
@@ -100,18 +110,18 @@ function updateStudentId(index, newStudentId) {
       studentId: newStudentId
     })
   })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(`HTTP error ${response.status}`);
-    }
-    return response.json();
-  })
-  .then(data => {
-    console.log('Student ID updated successfully:', data);
-  })
-  .catch(error => {
-    console.error('Error updating student ID:', error);
-  });
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Student ID updated successfully:', data);
+    })
+    .catch(error => {
+      console.error('Error updating student ID:', error);
+    });
 }
 
 fetch('/values')
