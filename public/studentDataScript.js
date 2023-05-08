@@ -28,6 +28,64 @@ function matrixToDataURL(matrix) {
 
 let studentData = [];
 
+// function createTable(studentData) {
+//   const table = document.createElement('table');
+//   table.style.width = '100%';
+//   table.setAttribute('border', '1');
+
+//   const header = table.createTHead();
+//   const headerRow = header.insertRow();
+//   headerRow.innerHTML = `
+//       <th>Student ID</th>
+//       <th>Prompt</th>
+//       <th>Classification</th>
+//       <th>Confidence</th>
+//       <th>Image</th>
+//     `;
+
+//   const tbody = document.createElement('tbody');
+
+//   studentData.forEach((item, index) => {
+//     const row = tbody.insertRow();
+//     const imageURL = matrixToDataURL(item.matrix);
+//     const studentIdCell = document.createElement('td');
+//     const studentIdSelect = createStudentIdSelect(item.studentId, item._id);
+//     studentIdCell.appendChild(studentIdSelect);
+//     row.appendChild(studentIdCell);
+
+//     row.innerHTML += `
+//       <td>${item.prompt}</td>
+//       <td>${item.classification}</td>
+//       <td>${(item.confidence * 100).toFixed(2)}%</td>
+//       <td><img src="${imageURL}" width="32" height="32" alt="Image"></td>
+//     `;
+
+//     // Add an event listener for the select element
+//     studentIdSelect.addEventListener("change", (e) => {
+//       updateStudentId(item._id, parseInt(e.target.value));
+//     });
+//   });
+
+//   table.appendChild(tbody);
+//   document.getElementById('student-data').appendChild(table);
+// }
+
+// function createStudentIdSelect(selectedId, itemId) {
+//   const select = document.createElement('select');
+//   select.setAttribute('data-id', itemId);
+//   for (let i = 0; i < 10; i++) {
+//     const option = document.createElement('option');
+//     option.value = i;
+//     option.text = i;
+//     if (i === selectedId) {
+//       option.selected = true;
+//     }
+//     select.appendChild(option);
+//   }
+
+//   return select;
+// }
+
 function createTable(studentData) {
   const table = document.createElement('table');
   table.style.width = '100%';
@@ -49,8 +107,8 @@ function createTable(studentData) {
     const row = tbody.insertRow();
     const imageURL = matrixToDataURL(item.matrix);
     const studentIdCell = document.createElement('td');
-    const studentIdSelect = createStudentIdSelect(item.studentId, item._id);
-    studentIdCell.appendChild(studentIdSelect);
+    const studentIdInput = createStudentIdInput(item.studentId, item._id);
+    studentIdCell.appendChild(studentIdInput);
     row.appendChild(studentIdCell);
 
     row.innerHTML += `
@@ -60,9 +118,9 @@ function createTable(studentData) {
       <td><img src="${imageURL}" width="32" height="32" alt="Image"></td>
     `;
 
-    // Add an event listener for the select element
-    studentIdSelect.addEventListener("change", (e) => {
-      updateStudentId(item._id, parseInt(e.target.value));
+    // Add an event listener for the input element
+    studentIdInput.addEventListener("change", (e) => {
+      updateStudentId(item._id, parseInt(e.target.value), item.studentId);
     });
   });
 
@@ -70,20 +128,14 @@ function createTable(studentData) {
   document.getElementById('student-data').appendChild(table);
 }
 
-function createStudentIdSelect(selectedId, itemId) {
-  const select = document.createElement('select');
-  select.setAttribute('data-id', itemId);
-  for (let i = 0; i < 10; i++) {
-    const option = document.createElement('option');
-    option.value = i;
-    option.text = i;
-    if (i === selectedId) {
-      option.selected = true;
-    }
-    select.appendChild(option);
-  }
-
-  return select;
+function createStudentIdInput(selectedId, itemId) {
+  const input = document.createElement('input');
+  input.type = 'number';
+  input.min = 0;
+  input.max = 9;
+  input.value = selectedId;
+  input.setAttribute('data-id', itemId);
+  return input;
 }
 
 async function updateStudentId(submissionId, newStudentId) {
@@ -103,15 +155,11 @@ async function updateStudentId(submissionId, newStudentId) {
     const data = await response.json();
     console.log(data.message);
 
-    // Find the select element with the data-id attribute equal to submissionId
-    const selectElement = document.querySelector(`select[data-id="${submissionId}"]`);
-    if (selectElement) {
-      // Find the row that contains the select element
-      const row = selectElement.closest('tr');
-      if (row) {
-        // Update the student ID cell
-        row.cells[0].innerText = newStudentId;
-      }
+    // Find the input element with the data-id attribute equal to submissionId
+    const inputElement = document.querySelector(`input[data-id="${submissionId}"]`);
+    if (inputElement) {
+      // Update the input value
+      inputElement.value = newStudentId;
     }
   } catch (error) {
     console.error(error);
