@@ -25,16 +25,12 @@ function matrixToDataURL(matrix) {
   ctx.putImageData(imageData, 0, 0);
   return canvas.toDataURL();
 }
-
-let studentData = [];
-
-// function createTable(studentData) {
 //   const table = document.createElement('table');
 //   table.style.width = '100%';
 //   table.setAttribute('border', '1');
 
 //   const header = table.createTHead();
-//   const headerRow = header.insertRow();
+//   const headerRow = header.insertRow(0);
 //   headerRow.innerHTML = `
 //       <th>Student ID</th>
 //       <th>Prompt</th>
@@ -44,47 +40,23 @@ let studentData = [];
 //     `;
 
 //   const tbody = document.createElement('tbody');
-
-//   studentData.forEach((item, index) => {
+//   studentData.forEach(item => {
 //     const row = tbody.insertRow();
 //     const imageURL = matrixToDataURL(item.matrix);
-//     const studentIdCell = document.createElement('td');
-//     const studentIdSelect = createStudentIdSelect(item.studentId, item._id);
-//     studentIdCell.appendChild(studentIdSelect);
-//     row.appendChild(studentIdCell);
-
-//     row.innerHTML += `
-//       <td>${item.prompt}</td>
-//       <td>${item.classification}</td>
-//       <td>${(item.confidence * 100).toFixed(2)}%</td>
-//       <td><img src="${imageURL}" width="32" height="32" alt="Image"></td>
-//     `;
-
-//     // Add an event listener for the select element
-//     studentIdSelect.addEventListener("change", (e) => {
-//       updateStudentId(item._id, parseInt(e.target.value));
-//     });
+//     row.innerHTML = `
+//         <td>${item.studentId}</td>
+//         <td>${item.prompt}</td>
+//         <td>${item.classification}</td>
+//         <td>${(item.confidence * 100).toFixed(2)}%</td>
+//         <td><img src="${imageURL}" width="32" height="32" alt="Image"></td>
+//       `;
 //   });
 
 //   table.appendChild(tbody);
 //   document.getElementById('student-data').appendChild(table);
 // }
 
-// function createStudentIdSelect(selectedId, itemId) {
-//   const select = document.createElement('select');
-//   select.setAttribute('data-id', itemId);
-//   for (let i = 0; i < 10; i++) {
-//     const option = document.createElement('option');
-//     option.value = i;
-//     option.text = i;
-//     if (i === selectedId) {
-//       option.selected = true;
-//     }
-//     select.appendChild(option);
-//   }
-
-//   return select;
-// }
+// Fetch values for student data table
 
 function createTable(studentData) {
   const table = document.createElement('table');
@@ -102,84 +74,30 @@ function createTable(studentData) {
     `;
 
   const tbody = document.createElement('tbody');
-
-  studentData.forEach((item, index) => {
-    const row = tbody.insertRow();
+  studentData.forEach(item => {
+    const row = tbody.insertRow(0); // Insert the new row at the beginning of the table body
     const imageURL = matrixToDataURL(item.matrix);
-    const studentIdCell = document.createElement('td');
-    const studentIdInput = createStudentIdInput(item.studentId, item._id);
-    studentIdCell.appendChild(studentIdInput);
-    row.appendChild(studentIdCell);
-
-    row.innerHTML += `
-      <td>${item.prompt}</td>
-      <td>${item.classification}</td>
-      <td>${(item.confidence * 100).toFixed(2)}%</td>
-      <td><img src="${imageURL}" width="32" height="32" alt="Image"></td>
-    `;
-
-    // Add an event listener for the input element
-    studentIdInput.addEventListener("change", (e) => {
-      updateStudentId(item._id, parseInt(e.target.value), item.studentId);
-    });
+    row.innerHTML = `
+        <td>${item.studentId}</td>
+        <td>${item.prompt}</td>
+        <td>${item.classification}</td>
+        <td>${(item.confidence * 100).toFixed(2)}%</td>
+        <td><img src="${imageURL}" width="32" height="32" alt="Image"></td>
+      `;
   });
 
   table.appendChild(tbody);
   document.getElementById('student-data').appendChild(table);
 }
 
-function createStudentIdInput(selectedId, itemId) {
-  const input = document.createElement('input');
-  input.type = 'number';
-  input.min = 0;
-  input.max = 9;
-  input.value = selectedId;
-  input.setAttribute('data-id', itemId);
-  return input;
-}
-
-async function updateStudentId(submissionId, newStudentId) {
-  try {
-    const response = await fetch(`/update/${submissionId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ studentId: newStudentId }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Error updating student ID");
-    }
-
-    const data = await response.json();
-    console.log(data.message);
-
-    // Find the input element with the data-id attribute equal to submissionId
-    const inputElement = document.querySelector(`input[data-id="${submissionId}"]`);
-    if (inputElement) {
-      // Update the input value
-      inputElement.value = newStudentId;
-    }
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 fetch('/values')
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(`HTTP error ${response.status}`);
-    }
-    return response.text();
-  })
+  .then(response => response.text())
   .then(text => {
     console.log('Response text:', text);
     return JSON.parse(text);
   })
   .then(data => {
-    studentData = data.data;
-    console.log('Student data:', studentData);
+    const studentData = data.data;
     createTable(studentData);
   })
   .catch(error => {
