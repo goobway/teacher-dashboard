@@ -48,19 +48,10 @@ function createTable(studentData) {
     const row = tbody.insertRow();
     const imageURL = matrixToDataURL(item.matrix);
     const studentIdCell = document.createElement('td');
+    console.log('Item studentId:', item.studentId);
     const studentIdSelect = createStudentIdSelect(item.studentId, index);
     studentIdCell.appendChild(studentIdSelect);
     row.appendChild(studentIdCell);
-
-    // const studentIdSelect = createStudentIdSelect(item.studentId, index);
-    // row.appendChild(studentIdSelect);
-
-    // row.innerHTML += `
-    //     <td>${item.prompt}</td>
-    //     <td>${item.classification}</td>
-    //     <td>${(item.confidence * 100).toFixed(2)}%</td>
-    //     <td><img src="${imageURL}" width="32" height="32" alt="Image"></td>
-    //   `;
 
     row.innerHTML += `
     <td>${item.prompt}</td>
@@ -76,6 +67,7 @@ function createTable(studentData) {
 }
 
 function createStudentIdSelect(selectedId, index) {
+  console.log('SelectedId:', selectedId);
   const select = document.createElement('select');
   for (let i = 1; i <= 10; i++) { // Change the loop start value to 1 and end value to 10
     const option = document.createElement('option');
