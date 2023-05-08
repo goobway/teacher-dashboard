@@ -26,39 +26,7 @@ function matrixToDataURL(matrix) {
   return canvas.toDataURL();
 }
 
-// function createTable(studentData) {
-//   const table = document.createElement('table');
-//   table.style.width = '100%';
-//   table.setAttribute('border', '1');
-
-//   const header = table.createTHead();
-//   const headerRow = header.insertRow(0);
-//   headerRow.innerHTML = `
-//       <th>Student ID</th>
-//       <th>Prompt</th>
-//       <th>Classification</th>
-//       <th>Confidence</th>
-//       <th>Image</th>
-//     `;
-
-//   const tbody = document.createElement('tbody');
-//   studentData.forEach(item => {
-//     const row = tbody.insertRow();
-//     const imageURL = matrixToDataURL(item.matrix);
-//     row.innerHTML = `
-//         <td>${item.studentId}</td>
-//         <td>${item.prompt}</td>
-//         <td>${item.classification}</td>
-//         <td>${(item.confidence * 100).toFixed(2)}%</td>
-//         <td><img src="${imageURL}" width="32" height="32" alt="Image"></td>
-//       `;
-//   });
-
-//   table.appendChild(tbody);
-//   document.getElementById('student-data').appendChild(table);
-// }
-
-// Fetch values for student data table
+let studentData = [];
 
 function createTable(studentData) {
   const table = document.createElement('table');
@@ -66,7 +34,7 @@ function createTable(studentData) {
   table.setAttribute('border', '1');
 
   const header = table.createTHead();
-  const headerRow = header.insertRow();
+  const headerRow = header.insertRow(0);
   headerRow.innerHTML = `
       <th>Student ID</th>
       <th>Prompt</th>
@@ -76,20 +44,57 @@ function createTable(studentData) {
     `;
 
   const tbody = document.createElement('tbody');
-  studentData.forEach(item => {
-    const row = tbody.insertRow(0); // Insert the new row at the beginning of the table body
+  studentData.forEach((item, index) => {
+    const row = tbody.insertRow(0);
     const imageURL = matrixToDataURL(item.matrix);
     row.innerHTML = `
-        <td>${item.studentId}</td>
+        <td><input type="number" value="${item.studentId}" data-index="${index}" /></td>
         <td>${item.prompt}</td>
         <td>${item.classification}</td>
         <td>${(item.confidence * 100).toFixed(2)}%</td>
         <td><img src="${imageURL}" width="32" height="32" alt="Image"></td>
       `;
+
+    const input = row.querySelector('input');
+    input.addEventListener('change', (event) => {
+      const index = parseInt(event.target.getAttribute('data-index'));
+      const newStudentId = parseInt(event.target.value);
+      updateStudentId(index, newStudentId);
+    });
   });
 
   table.appendChild(tbody);
   document.getElementById('student-data').appendChild(table);
+}
+
+function updateStudentId(index, newStudentId) {
+  const item = studentData[index];
+
+  // Update the student ID in the local studentData array
+  item.studentId = newStudentId;
+
+  // Send the updated data to the server
+  fetch(`/values/${item.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      studentId: newStudentId
+    })
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('Student ID updated successfully:', data);
+  })
+  .catch(error => {
+    console.error('Error updating student ID:', error);
+  });
 }
 
 fetch('/values')
@@ -99,7 +104,7 @@ fetch('/values')
     return JSON.parse(text);
   })
   .then(data => {
-    const studentData = data.data;
+    studentData = data.data;
     createTable(studentData);
   })
   .catch(error => {
