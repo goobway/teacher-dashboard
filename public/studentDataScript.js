@@ -46,6 +46,13 @@ function createTable(studentData) {
   studentData.forEach(item => {
     const row = tbody.insertRow(0); // Insert the new row at the beginning of the table body
 
+    row.innerHTML = `
+        <td>${item.prompt}</td>
+        <td>${item.classification}</td>
+        <td>${(item.confidence * 100).toFixed(2)}%</td>
+        <td></td>
+      `;
+
     // Create a dropdown menu for the new student ID
     const newStudentIdCell = row.insertCell();
     const newStudentIdSelect = document.createElement('select');
@@ -58,20 +65,12 @@ function createTable(studentData) {
     }
     newStudentIdCell.appendChild(newStudentIdSelect);
 
-    row.innerHTML += `
-        <td>${item.studentId}</td>
-        <td>${item.prompt}</td>
-        <td>${item.classification}</td>
-        <td>${(item.confidence * 100).toFixed(2)}%</td>
-      `;
-
-    const imageURL = matrixToDataURL(item.matrix);
     const imageCell = row.insertCell();
+    const imageURL = matrixToDataURL(item.matrix);
     const image = new Image(32, 32);
     image.src = imageURL;
     imageCell.appendChild(image);
 
-    // Add a button to update the student ID
     const updateButton = document.createElement('button');
     updateButton.innerText = 'Update';
     updateButton.addEventListener('click', () => {
