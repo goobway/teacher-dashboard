@@ -44,7 +44,7 @@ function createTable(studentData) {
 
   const tbody = document.createElement('tbody');
   studentData.forEach(item => {
-    const row = tbody.insertRow(0); // Insert the new row at the beginning of the table body
+    const row = tbody.insertRow(0);
 
     // Create a dropdown menu for the new student ID
     const newStudentIdCell = row.insertCell();
@@ -53,17 +53,26 @@ function createTable(studentData) {
       const option = document.createElement('option');
       option.value = i;
       option.text = i;
-      console.log(`Added option with value ${i}`);
       newStudentIdSelect.appendChild(option);
     }
     newStudentIdCell.appendChild(newStudentIdSelect);
 
-    row.innerHTML += `
-        <td>${item.studentId}</td>
-        <td>${item.prompt}</td>
-        <td>${item.classification}</td>
-        <td>${(item.confidence * 100).toFixed(2)}%</td>
-      `;
+    // Add other cells with their content
+    const studentIdCell = document.createElement('td');
+    studentIdCell.textContent = item.studentId;
+    row.appendChild(studentIdCell);
+
+    const promptCell = document.createElement('td');
+    promptCell.textContent = item.prompt;
+    row.appendChild(promptCell);
+
+    const classificationCell = document.createElement('td');
+    classificationCell.textContent = item.classification;
+    row.appendChild(classificationCell);
+
+    const confidenceCell = document.createElement('td');
+    confidenceCell.textContent = `${(item.confidence * 100).toFixed(2)}%`;
+    row.appendChild(confidenceCell);
 
     const imageURL = matrixToDataURL(item.matrix);
     const imageCell = row.insertCell();
