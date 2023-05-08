@@ -90,6 +90,7 @@ app.get('/values', async (req, res) => {
 });
 
 // Endpoint to update the studentId for a specific submission
+// Endpoint to update the studentId for a specific submission
 app.put('/values/:submissionId', async (req, res) => {
   const submissionId = req.params.submissionId;
   const { studentId } = req.body;
@@ -108,6 +109,8 @@ app.put('/values/:submissionId', async (req, res) => {
 
     // Update the document with the specified submission ID
     const result = await collection.updateOne({ _id: ObjectId(submissionId) }, { $set: { studentId } });
+    
+    console.log(result); // Log the result variable to the console
 
     if (result.matchedCount === 0) {
       res.status(404).json({ message: 'No submission found with the specified ID.' });
