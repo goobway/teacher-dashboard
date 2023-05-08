@@ -125,6 +125,7 @@ fetch('/values')
   })
   .then(data => {
     studentData = data.data;
+    console.log('Student data:', studentData); // Add this line
     createTable(studentData);
   })
   .catch(error => {
