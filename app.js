@@ -140,7 +140,7 @@ app.delete('/delete/:classification', async (req, res) => {
     const collection = db.collection('frame_of_knowledge');
 
     // Delete the document with the specified (anything)
-    const result = await collection.deleteOne({ classification: classification });
+    const result = await collection.deleteMany({ classification: classification });
 
     if (result.deletedCount === 0) {
       res.status(404).json({ message: 'No data found with the specified classification.' });
