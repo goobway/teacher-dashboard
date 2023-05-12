@@ -71,7 +71,7 @@ function createTable(studentData) {
     row.appendChild(classificationCell);
 
     const confidenceCell = document.createElement('td');
-    confidenceCell.textContent = `${(item.confidence * 100).toFixed(2)}%`;
+    confidenceCell.textContent = `${(item.confidence * 100)}%`;
     row.appendChild(confidenceCell);
 
     const imageURL = matrixToDataURL(item.matrix);
