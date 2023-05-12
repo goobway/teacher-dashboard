@@ -128,8 +128,8 @@ app.put('/values/:submissionId', async (req, res) => {
 });
 
 // Endpoint to delete data for a specific (anything)
-app.delete('/delete/:confidence', async (req, res) => {
-  const confidence = req.params.confidence;
+app.delete('/delete/:classification', async (req, res) => {
+  const classification = req.params.classification;
 
   try {
     // Connect to the MongoDB server
@@ -140,10 +140,10 @@ app.delete('/delete/:confidence', async (req, res) => {
     const collection = db.collection('frame_of_knowledge');
 
     // Delete the document with the specified (anything)
-    const result = await collection.deleteMany({ confidence: confidence });
+    const result = await collection.deleteMany({ classification: classification });
 
     if (result.deletedCount === 0) {
-      res.status(404).json({ message: 'No data found with the specified confidence.' });
+      res.status(404).json({ message: 'No data found with the specified classification.' });
     } else {
       res.status(200).json({ message: 'Data deleted successfully.' });
     }
