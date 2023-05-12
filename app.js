@@ -127,9 +127,9 @@ app.put('/values/:submissionId', async (req, res) => {
   }
 });
 
-// Endpoint to delete data for a specific prompt
-app.delete('/delete/:prompt', async (req, res) => {
-  const prompt = req.params.prompt;
+// Endpoint to delete data for a specific (anything)
+app.delete('/delete/:confidence', async (req, res) => {
+  const confidence = req.params.confidence;
 
   try {
     // Connect to the MongoDB server
@@ -139,11 +139,11 @@ app.delete('/delete/:prompt', async (req, res) => {
     // Get the 'frame_of_knowledge' collection
     const collection = db.collection('frame_of_knowledge');
 
-    // Delete the document with the specified prompt
-    const result = await collection.deleteMany({ prompt: prompt });
+    // Delete the document with the specified (anything)
+    const result = await collection.deleteMany({ confidence: confidence });
 
     if (result.deletedCount === 0) {
-      res.status(404).json({ message: 'No data found with the specified prompt.' });
+      res.status(404).json({ message: 'No data found with the specified confidence.' });
     } else {
       res.status(200).json({ message: 'Data deleted successfully.' });
     }
